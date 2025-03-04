@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Merchandise Store{% endblock %}
+{% block content %}
+        <ul>
+            <h1> {{object.name}}</h1>
+                {{object.description}}
+                {{object.price|floatformat:2}}   
+        </ul>
+{% endblock %}

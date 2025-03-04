@@ -4,8 +4,8 @@ from django.urls import path
 from .views import index, ProductList, ProductDetail
 urlpatterns = [
     path('', index, name='index'),
-    path('items', ProductList.as_view(), name= 'recipe-list'),
-    path('items/<int:pk>', ProductDetail.as_view(), name = "recipe-detail"),
+    path('merchstore/', ProductList.as_view(), name= 'items'),
+    path('merchstore/<int:pk>', ProductDetail.as_view(), name = "item-detail"),
 ]
 # This might be needed, depending on your Django version
 app_name = 'merchstore'

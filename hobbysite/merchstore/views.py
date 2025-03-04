@@ -12,10 +12,10 @@ class ProductList(ListView):
     """Class viewing the list of products."""
 
     model = Product
-    template_name = "merchstore/items.html"
+    template_name = "items/items.html"
 
 class ProductDetail(DetailView):
     """Class viewing a product in detail."""
 
     model = Product
-    template_name = "merchstore/detail.html"
+    template_name = "item/item_detail.html"

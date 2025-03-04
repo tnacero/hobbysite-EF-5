@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Merchandise Store{% endblock %}
+{% block content %}
+        <ul>
+            <h1> Merchandise Store </h1>
+            {% for Product in object_list|dictsort:"name" %}
+            <li><a href="{{Product.get_absolute_url}}">{{Product.name}}</a>
+            </li>
+            {% endfor %}
+            
+        </ul>
+{% endblock %}
