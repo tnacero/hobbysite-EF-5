@@ -1,9 +1,8 @@
 """Module providing a function redirecting urls to recipe book."""
 
 from django.urls import path
-from .views import index, ProductList, ProductDetail
+from .views import ProductList, ProductDetail
 urlpatterns = [
-    path('', index, name='index'),
     path('merchstore/', ProductList.as_view(), name= 'items'),
     path('merchstore/<int:pk>', ProductDetail.as_view(), name = "item-detail"),
 ]

@@ -1,12 +1,7 @@
-"""Modules importing django views, HttpResponse and Product for url views."""
-from django.http import HttpResponse
+"""Modules importing django views and Product from app models for url views."""
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import Product
-
-def index(request):
-    """function printing homepage message."""
-    return HttpResponse('Welcome to the merch store!')
 
 class ProductList(ListView):
     """Class viewing the list of products."""
