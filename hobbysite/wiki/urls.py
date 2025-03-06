@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import WikiListView, WikiDetailView
+from .views import ArticleListView, ArticleDetailView
 
 urlpatterns = [
 
-    path('/wiki/articles', WikiListView.as_view(), name='list'),
-    path('/wiki/article/1', WikiDetailView.as_view(), name='wiki_detail')
+    path('/wiki/articles', ArticleListView.as_view(), name='list'),
+    path('/wiki/article/1', ArticleDetailView.as_view(), name='article_detail')
     
 ]
 
