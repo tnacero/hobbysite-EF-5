@@ -6,8 +6,8 @@
 {% block content %}
         <ul>
             <h1> {{object.name}}</h1>
-                {{object.ProductType.name}}
-                {{object.description}}
-                {{object.price|floatformat:2}}   
+                <p>{{object.ProductType.name}}</p>
+                <p>{{object.description}}</p>
+                <p>{{object.price|floatformat:2}}</p> 
         </ul>
 {% endblock %}
