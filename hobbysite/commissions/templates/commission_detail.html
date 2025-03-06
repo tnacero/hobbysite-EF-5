@@ -5,9 +5,19 @@
 {% block title %} {{ commission.title }} {% endblock %}
 
 {% block content %}
-    <h3> {{ commission.title }} </h3>
+    <h2> {{ commission.title }} </h2>
     <p> {{ commission.description }}</p>
-    <p> {{ commission.people_required }}</p>
-    <p> {{ commission.created_on }}</p>
-    <p> {{ commission.updated_on }}</p>
+    <p> People Required: {{ commission.people_required }}</p>
+    <p> Created On: {{ commission.created_on }}</p>
+    <p> Latest Update On: {{ commission.updated_on }}</p>
+    <b> Comments </b>
+    <ul>
+        {% for comment in commission.comment.all %}
+            <li>
+                {{ comment.entry }} <br>
+                Created On: {{ comment.created_on }} <br>
+                Latest Update On: {{ comment.updated_on }}
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

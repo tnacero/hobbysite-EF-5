@@ -8,7 +8,7 @@
     <h1>Commissions</h1>
     <ul>
         {% for commission in object_list %}
-            <a href="{{ commission.get_absolute_url }}">{{ commission }}</a>
+            <li><a href="{{ commission.get_absolute_url }}">{{ commission }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
