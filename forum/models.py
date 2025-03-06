@@ -27,9 +27,9 @@ class Post(models.Model):
         PostCategory, on_delete=models.SET_NULL, 
         null=True, related_name="post"
         )
-        entry = models.TextField(blank=False)
-        created_on = models.DateTimeField(auto_now_add=True, null=False)
-        updated_on = models.DateTimeField(auto_now=True, null=False)
+    entry = models.TextField(blank=False)
+    created_on = models.DateTimeField(auto_now_add=True, null=False)
+    updated_on = models.DateTimeField(auto_now=True, null=False)
 
     def __str__(self):
         return self.name
