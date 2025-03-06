@@ -7,6 +7,11 @@ class ArticleCategory(models.Model):
     description = models.TextField(blank=False)
     ordering = ['category']
     
+    def __str__(self):
+        return '{}'.format(self.name)
+
+    def get_absolute_url(self):
+        return reverse("blog:category", args=[self.pk])
     
 class Article(models.Model):
     title = models.CharField(max_length=255)

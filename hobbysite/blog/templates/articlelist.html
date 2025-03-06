@@ -1,0 +1,9 @@
+{% extends 'base.html'%}
+{% block title %}Blog Site{% endblock %}
+{% block styles %} {% endblock %}
+{% block content %}
+<ul>
+  <h1>Article List</h1>
+  <a href="{{category.get_absolute_url}}">{{category}}</a>
+</ul>
+{% endblock %}
