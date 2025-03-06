@@ -3,6 +3,11 @@
 {% block styles %}{% endblock %}
 {% block content %}
     <ul>
-        Articles    
+        <h2><b> {{ object.title }} </b></h2>
+        <p><b> Category:</b> {{ object.category }} </p> 
+        <p><b> Date Created:</b> {{ object.created_on }}</p> 
+        <p><b> Last Updated:</b> {{ object.updated_on }}</p> 
+        <p><b> Text Entry:</b> {{object.entry}}</p> 
+        <a href="{% url "blog:article-list" %}"class = "button"> [Back to Blog List]</a>
     </ul>
 {% endblock %}
