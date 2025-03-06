@@ -1,1 +1,15 @@
+<!-- This file formats the posts as a thread with their corresponding links -->
 
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Online Forum{% endblock %}
+{% block content %} 
+    <ul>
+        {% for post in object_list %}
+        <li><a href="{{post.get_absolute_url}}">{{post}}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
