@@ -25,9 +25,8 @@ urlpatterns = [
     path('commissions/', include('commissions.urls', namespace = 'commissions')),
     path('blog/', include('blog.urls', namespace="blog")),
     path('wiki/', include('wiki.urls', namespace = 'wiki')),
-
+    path('forum/', include('forum.urls', namespace="forum")),
     path('admin/', admin.site.urls),
-    
 ]
 
 app_name = "wiki"
