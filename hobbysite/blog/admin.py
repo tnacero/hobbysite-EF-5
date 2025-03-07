@@ -1,5 +1,10 @@
 from django.contrib import admin
 from .models import Article, ArticleCategory
 
-admin.site.register(Article)
-admin.site.register(ArticleCategory)
+class ArticleCategoriesInline(admin.TabularInline):
+    model = Article
+
+class ArticleAdmin(admin.ModelAdmin):
+    inlines = [ArticleCategoriesInline,]
+    
+admin.site.register(ArticleCategory, ArticleAdmin)
