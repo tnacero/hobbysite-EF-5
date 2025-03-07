@@ -1,12 +1,18 @@
 {% extends 'base.html'%}
 {% block title %}Online Wiki{% endblock %}
-{% block styles %}{% endblock %}
+{% block styles %} {% endblock %}
 {% block content %}
-    <ul>
-        <h2><b> {{ object.title }} </b></h2>
-        <p><b> Category:</b> {{ object.category }} </p> 
-        <p><b> Date Created:</b> {{ object.created_on }}</p> 
-        <p><b> Last Updated:</b> {{ object.updated_on }}</p> 
-        <p><b> Text Entry:</b> {{object.entry}}</p> 
-    </ul>
+<h1>Online Wiki</h1>
+<h2>Categories</h2>
+<ul>
+  {% for categories in object_list %}
+  <b><u> {{categories.name}}</u></b> | {{categories.description}}
+    {% for articles in categories.category.all %}
+      <li>
+        <a href='{{articles.get_absolute_url}}'>{{articles.title}}</a>
+      </li>
+    {% endfor %}
+    <br>
+  {% endfor %}
+</ul>
 {% endblock %}
