@@ -1,9 +1,12 @@
+"""This file sets up the models for the wiki app."""
 from django.db import models
 from django.urls import reverse
 
 # Create your models here.
 
 class ArticleCategory(models.Model):
+    """Class for the ArticleCategory model for the wiki app."""
+    
     name = models.CharField(max_length=255)
     description = models.TextField()
     
@@ -21,6 +24,8 @@ class ArticleCategory(models.Model):
 
 
 class Article(models.Model):
+    """Class for the Article model for the wiki app."""
+    
     title = models.CharField(max_length=255)
     category = models.ForeignKey(ArticleCategory, 
                                      on_delete=models.SET_NULL, 
