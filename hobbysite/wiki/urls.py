@@ -1,3 +1,4 @@
+"""This file sets up the urls for the wiki app."""
 from django.urls import path
 from .views import ArticleListView, ArticleDetailView
 
