@@ -1,5 +1,4 @@
 """Module importing the admin panels"""
-
 from django.contrib import admin
 from .models import Product, ProductType
 
