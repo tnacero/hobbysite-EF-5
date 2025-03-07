@@ -16,7 +16,8 @@ class ArticleCategory(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=255)
     category = models.ForeignKey(ArticleCategory, 
-                                    on_delete=models.CASCADE,
+                                    on_delete=models.SET_NULL, 
+                                    null=True,
                                     related_name='category')
     entry = models.TextField(blank=False)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -29,5 +30,5 @@ class Article(models.Model):
         return reverse("blog:article-detail", args=[self.pk])
     
     class Meta:
-        ordering = ['category', '-created_on']
+        ordering = ['-created_on']
 # Create your models here.
