@@ -1,3 +1,4 @@
+"""This file sets up the urls for the commissions app."""
 from django.urls import path
 from .views import CommissionListView, CommissionDetailView
 
