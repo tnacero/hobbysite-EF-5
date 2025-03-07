@@ -4,7 +4,7 @@ from django.db import models
 from django.urls import reverse
 
 class ProductType(models.Model):
-    """Class representing an ingredient in the recipe."""
+    """Class representing a prodduct type."""
 
     name = models.CharField(max_length=255)
     description = models.TextField()
