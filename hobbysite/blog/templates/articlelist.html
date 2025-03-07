@@ -5,17 +5,8 @@
 <h1>Blog Site</h1>
 <h2>Categories</h2>
 <ul>
-  {% for article in object_list%}
-    {{article.name}}
-  {% endfor %}
-
-
   {% for category in object_list %}
-  <b>[{{category.category}}]</b>
-  <li>
-    <a href="{{ category.get_absolute_url }}"> {{ category.title }}</a>
-  </li>   
+    <p><b>[{{category.category}}] <a href ='{{category.get_absolute_url}}'>{{category.title}}</a></b><p>
   {% endfor %}
-
 </ul>
 {% endblock %}

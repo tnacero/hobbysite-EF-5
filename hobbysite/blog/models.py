@@ -29,5 +29,5 @@ class Article(models.Model):
         return reverse("blog:article-detail", args=[self.pk])
     
     class Meta:
-        ordering = ['-created_on']
+        ordering = ['category', '-created_on']
 # Create your models here.
