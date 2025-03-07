@@ -2,11 +2,11 @@ from django.contrib import admin
 from .models import Article, ArticleCategory
 
 class ArticleCategoriesInline(admin.TabularInline):
-    model = ArticleCategory
+    model = Article
 
 class ArticleAdmin(admin.ModelAdmin):
-    model = Article
+    model = ArticleCategory
     inlines = [ArticleCategoriesInline,]
     
-admin.site.register(Article, ArticleAdmin)
-admin.site.register(ArticleCategory)
+admin.site.register(ArticleCategory, ArticleAdmin)
+admin.site.register(Article)
