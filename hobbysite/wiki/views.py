@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
-from .models import Article
+from .models import Article, ArticleCategory
 
 
 class ArticleListView(ListView):
@@ -12,5 +12,5 @@ class ArticleListView(ListView):
 
 
 class ArticleDetailView(DetailView):
-    model = Article
+    model = ArticleCategory
     template_name = 'article/article_detail.html'
