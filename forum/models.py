@@ -11,6 +11,9 @@ class PostCategory(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('post-category-detail', args=[str(self.pk)])
+
     class Meta:
     """This class uses metadata from the models import to arrange"""
     """the categories in an ascending order based on name."""
@@ -35,7 +38,7 @@ class Post(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('post_category_detail', args=[str(self.pk)])
+        return reverse('post-detail', args=[str(self.pk)])
 
     class Meta:
     """This class uses metadata from the models import to arrange"""
