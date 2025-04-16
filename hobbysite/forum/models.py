@@ -15,9 +15,9 @@ class PostCategory(models.Model):
         return reverse('post-category-detail', args=[str(self.pk)])
 
     class Meta:
-    """This class uses metadata from the models import to arrange"""
-    """the categories in an ascending order based on name."""
-
+        """This class uses metadata from the models import to arrange"""
+        """the categories in an ascending order based on name."""
+        
         ordering = ['name']
         verbose_name = 'category'
         verbose_name_plural = 'categories'
@@ -41,8 +41,8 @@ class Post(models.Model):
         return reverse('post-detail', args=[str(self.pk)])
 
     class Meta:
-    """This class uses metadata from the models import to arrange"""
-    """the posts in a descending order based on date created."""
+        """This class uses metadata from the models import to arrange"""
+        """the posts in a descending order based on date created."""
     
         ordering = ['-created_on']
         verbose_name = 'post'

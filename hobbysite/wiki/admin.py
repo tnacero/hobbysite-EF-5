@@ -4,7 +4,7 @@ from .models import Article, ArticleCategory
 
 
 class ArticleCategoriesInline(admin.TabularInline):
-     """Creates an inline for the Article model."""
+    """Creates an inline for the Article model."""
     
     model = Article
 
