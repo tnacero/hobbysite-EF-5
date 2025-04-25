@@ -21,13 +21,14 @@ from django.urls import include, path
 
 
 urlpatterns = [
-    path('', include('merchstore.urls', namespace='merchstore')),
+    path('merchstore/', include('merchstore.urls', namespace='merchstore')),
     path('commissions/', include('commissions.urls', namespace = 'commissions')),
     path('blog/', include('blog.urls', namespace="blog")),
     path('wiki/', include('wiki.urls', namespace = 'wiki')),
     path('forum/', include('forum.urls', namespace="forum")),
     path('profile/', include('user_management.urls', namespace='profile')),
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 app_name = "wiki"
