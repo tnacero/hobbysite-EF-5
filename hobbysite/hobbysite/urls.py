@@ -29,6 +29,6 @@ urlpatterns = [
     path('profile/', include('user_management.urls', namespace='profile')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('home/', include('home.urls', namespace='home'))
 ]
 
-app_name = "wiki"

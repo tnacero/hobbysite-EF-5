@@ -8,11 +8,11 @@ class PostListView(ListView):
     """Views the posts' category."""
 
     model = PostCategory
-    template_name = 'templates/thread_list.html'
+    template_name = 'thread_list.html'
 
 
 class PostDetailView(DetailView):
     """Views the details of the thread of posts."""
 
     model = Post
-    template_name = 'templates/thread_detail.html'
+    template_name = 'thread_detail.html'
