@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Hobby Site Homepage {% endblock %}
+
+{% block header %}Welcome to the Hobby Site!{% endblock %}
+
+{% block content %}
+    <ul>
+        <li><a href="{% url 'merchstore:items' %}">Merchstore</a></li>
+        <li><a href="{% url 'wiki:list' %}">Online Wiki</a></li>
+        <li><a href="{% url 'blog:article-list' %}">Blog</a></li>
+        <li><a href="{% url 'forum:post-list' %}">Forum</a></li>
+        <li><a href="{% url 'commissions:commissions-list' %}">Commissions</a></li>
+    </ul>
+{% endblock %}
