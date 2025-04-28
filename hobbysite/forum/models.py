@@ -14,7 +14,7 @@ class PostCategory(models.Model):
     def get_absolute_url(self):
         return reverse('post-category-detail', args=[str(self.pk)])
 
-    class Meta:
+    class Meta:    
         """
         This class uses metadata from the models import to arrange
         the categories in an ascending order based on name.
@@ -47,7 +47,7 @@ class Post(models.Model):
         This class uses metadata from the models import to arrange
         the posts in a descending order based on date created.
         """
-    
+        
         ordering = ['-created_on']
         verbose_name = 'post'
         verbose_name_plural = 'posts'

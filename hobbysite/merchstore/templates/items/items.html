@@ -14,8 +14,8 @@
             <h2> Product Types available</h2>
             {% for ProductType in object_list|dictsort:"name" %}
             <li>
-                <p>{{ProductType.ProductType.name}}</p>
-                <p>{{ProductType.ProductType.description}}</p>
+                <p>{{ProductType.product_type.name}}</p>
+                <p>{{ProductType.product_type.description}}</p>
             </li>
             {% endfor %}
         </ul>
