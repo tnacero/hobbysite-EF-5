@@ -1,7 +1,7 @@
 """Modules importing django views and Product from app models for url views."""
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
+# from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Product, Transaction
@@ -13,12 +13,14 @@ class ProductList(ListView):
     model = Product
     template_name = "items/items.html"
 
-class ProductDetail(DetailView):
+class ProductDetail(UpdateView):
     """Class viewing a product in detail."""
 
     model = Product
     template_name = "item/item_detail.html"
     form_class = TransactionForm
+    def get_success_url(self):
+        return reverse_lazy('merchstore:cart')
 
 class ProductCreate(LoginRequiredMixin, CreateView):
     """
