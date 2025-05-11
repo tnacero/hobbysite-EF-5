@@ -35,8 +35,8 @@ class Product(models.Model):
         )
     description = models.TextField()
     price = models.FloatField()
-    stock = models.IntegerField()
-    status = models.CharField()
+    stock = models.IntegerField(default=1)
+    status = models.CharField(max_length=255, default="Available")
 
     def __str__(self):
         """Check if this works later."""
@@ -69,5 +69,5 @@ class Transaction(models.Model):
         Product, on_delete=models.SET_NULL, null=True
     )
     amount = models.IntegerField()
-    status = models.CharField()
+    status = models.CharField(max_length=255, default="Available")
     created_on = models.DateTimeField()

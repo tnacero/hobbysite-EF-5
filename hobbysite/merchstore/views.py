@@ -4,7 +4,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Product
+from .models import Product, Transaction
 from .forms import ProductForm, TransactionForm
 
 class ProductList(ListView):
@@ -48,12 +48,12 @@ class Cart(ListView):
     """
     This class is to view the current products available in the cart.
     """
-    model = Product
+    model = Transaction
     template_name = "items/cart.html"
 
 class Transactions(ListView):
     """
     This class is to show the list of transactions currently available.
     """
-    model = Product
+    model = Transaction
     template_name = "items/transactions.html"
