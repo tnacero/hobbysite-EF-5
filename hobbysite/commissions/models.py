@@ -25,7 +25,7 @@ class Commission(models.Model):
     COMMISSION_STATUS_CHOICES = {
         OPEN: "Open",
         FULL: "Full",
-        COMPLETED: "Compelted",
+        COMPLETED: "Completed",
         DISCONTINUED: "Discontinued",
     }
 
