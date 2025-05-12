@@ -70,4 +70,5 @@ class Transaction(models.Model):
     )
     amount = models.IntegerField()
     status = models.CharField(max_length=255, default="Available")
-    created_on = models.DateTimeField()
+    created_on = models.DateTimeField(auto_now_add=True, null=True)
+    

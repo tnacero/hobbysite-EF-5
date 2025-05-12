@@ -10,10 +10,21 @@
                 <p>{{object.description}}</p>
                 <p>{{object.price|floatformat:2}}</p> 
 
-                <form method="POST">
-                {% csrf_token %}
-                {{ form.as_div }}
-                <button type="submit">Buy</button>
-            </form>
+                {% if request.user.Profile.name == object.owner.name %}
+                
+                    <p> Sorry, but you cannot buy this product. </p>
+                {% else %}
+                        <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_div }}
+                        <button type="submit">Buy</button>
+                    </form>
+
+                {% endif %}
+
+                {% if request.user.Profile.name == object.owner.name %}
+                    <li><a href="{% url 'merchstore:edit' %}">Edit Product</a>
+                    </li>
+                {% endif %}
         </ul>
 {% endblock %}

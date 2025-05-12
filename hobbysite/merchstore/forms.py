@@ -12,7 +12,8 @@ class ProductForm(forms.ModelForm) :
         fields = "__all__"
         widgets = {
             "product_type":forms.Select()
-            ,"status":forms.Select()
+            ,"status":forms.Select(),
+            
         }
 
 class TransactionForm(forms.ModelForm) :
@@ -22,5 +23,4 @@ class TransactionForm(forms.ModelForm) :
     class Meta:
         """Meta class for the fields utilized by Transaction"""
         model = Transaction
-        fields = "__all__"
-        
+        fields = ['product', 'amount', 'status']

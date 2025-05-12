@@ -7,11 +7,11 @@
         <ul>
             <h1> Merchandise Store </h1>
 
-            <h1> {{Transaction.buyer}}'s Transaction </h1>
+            <h1> {{object.buyer.name}}'s Transaction </h1>
                 {% for Transaction in object_list|dictsort:"owner" %}
-                    {% if user.Profile == Product.owner %}
+                    {% if object.Profile == object.owner %}
                     <li>
-                        <p>{{Product.owner}}</p>
+                        <p>{{object.owner.name}}</p>
                         <a href="{{Transaction.get_absolute_url}}">{{Product.name}}</a>
                     </li>
                     {% endif %}
