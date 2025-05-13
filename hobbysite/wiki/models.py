@@ -28,11 +28,16 @@ class Article(models.Model):
     """Class for the Article model for the wiki app."""
     
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(Profile, 
+                                     on_delete=models.SET_NULL, 
+                                     null=True, 
+                                     related_name = 'author')
     category = models.ForeignKey(ArticleCategory, 
                                      on_delete=models.SET_NULL, 
                                      null=True, 
                                      related_name = 'article')
     entry = models.TextField()    
+    header_image = models.ImageField(upload_to='static/img/', null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     
