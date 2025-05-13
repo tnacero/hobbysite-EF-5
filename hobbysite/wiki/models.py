@@ -1,6 +1,7 @@
 """This file sets up the models for the wiki app."""
 from django.db import models
 from django.urls import reverse
+from user_management.models import Profile
 
 # Create your models here.
 
@@ -55,3 +56,40 @@ class Article(models.Model):
         ordering = ['-created_on'] 
         verbose_name = 'article'
         verbose_name_plural = 'articles'
+
+
+class Comment(models.Model):
+    """Class for the Comment model for the wiki app."""
+    
+    author = models.ForeignKey(Profile, 
+                                     on_delete=models.SET_NULL, 
+                                     null=True, 
+                                     related_name = 'author')
+    article = models.ForeignKey(Article, 
+                                     on_delete=models.CASCADE, 
+                                     null=True, 
+                                     related_name = 'article')
+    entry = models.TextField()    
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.author
+        
+    def __str__(self):
+        return self.article
+    
+    def __str__(self):
+        return self.created_on
+    
+    def __str__(self):
+        return self.updated_on
+        
+    def get_absolute_url(self):
+        return reverse('wiki:article-detail', args=[str(self.pk)])
+        
+        
+    class Meta:
+        ordering = ['created_on'] 
+        verbose_name = 'comment'
+        verbose_name_plural = 'comments'
