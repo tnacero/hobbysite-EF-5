@@ -1,6 +1,4 @@
-from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
-from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -24,4 +22,16 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     template_name = 'blog_create.html' 
     fields = ['title', 'category', 'entry'] 
     success_url = '/blog/articlelist/' 
+    
+class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+    model = Article
+    template_name = "blog_update.html"
+    form_class = ArticleUpdateForm
+
+    def form_valid(self, form):
+        article = self.get_object() # Gets the article then passes it to the instance 
+        form.instance.article = article
+        self.object = form.save(commit=False)
+        self.object.save()
+        return super().form_valid(form)
 
