@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-
+from user_management.models import Profile
 
 class ArticleCategory(models.Model):
     """Class for the categories of articles and their description
@@ -34,6 +34,7 @@ class Article(models.Model):
                                     null=True,
                                     related_name='category')
     entry = models.TextField(blank=False)
+    header_image = models.ImageField(upload_to='images/', blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     
@@ -46,3 +47,29 @@ class Article(models.Model):
     class Meta: 
         ordering = ['-created_on'] # Orders the date of creation of the articles by descending order
 
+class Comment(models.Model):
+    """Class for the specific fields found within the article
+
+        author: author of the comment
+        category: category of the article
+        entries: entry of the user in regards to the article
+        created_on: date and time the article was created; automatic
+        updated_on: date and time the article was last updated; automatic
+    """
+    author = models.ForeignKey(Profile,
+                               on_delete=models.SET_NULL,
+                               null=True,
+                               related_name="comments")
+    
+    category = models.ForeignKey(ArticleCategory, 
+                                    on_delete=models.SET_NULL, 
+                                    null=True,
+                                    related_name='categories')
+    
+    entries = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-created_on'] # Orders the date of creation of the articles by descending order
+            
