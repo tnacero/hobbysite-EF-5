@@ -35,7 +35,7 @@ class Thread(models.Model):
         null=True, related_name="thread"
         )
     entry = models.TextField(blank=False) 
-    image = models.ImageField(upload_to='images/', blank=True)
+    image = models.ImageField(upload_to='media/images/', blank=True)
     created_on = models.DateTimeField(auto_now_add=True, null=False)
     updated_on = models.DateTimeField(auto_now=True, null=False)
 
@@ -52,6 +52,7 @@ class Thread(models.Model):
         ordering = ['-created_on']
         verbose_name = 'thread'
         verbose_name_plural = 'threads'
+
 
 class Comment(models.Model):
     "This class represents the comments that respond to a thread."
