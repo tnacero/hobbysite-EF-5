@@ -25,10 +25,18 @@ class ArticleDetailView(DetailView):
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
-    """Class for the creation of the articles"""
+    """Creates Create View for the Article model"""
     
     model = Article 
-    template_name = 'wiki_create.html' 
+    template_name = 'article_create.html' 
     fields = ['title', 'category', 'entry'] 
-    success_url = '/blog/articlelist/' 
+    success_url = '/wiki/articles/' 
 
+
+class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+    """Creates Update View for the Article model"""
+    
+    model = Article 
+    template_name = 'article_update.html' 
+    fields = ['title', 'category', 'entry', 'updated_on'] 
+    success_url = '/wiki/articles/'
