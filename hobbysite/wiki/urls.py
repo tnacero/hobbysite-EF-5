@@ -5,7 +5,7 @@ from .views import ArticleListView, ArticleDetailView, ArticleCreateView, Articl
 urlpatterns = [
 
     path('articles/', ArticleListView.as_view(), name='list'),
-    path('article/<int:pk>', ArticleDetailView.as_view(), name='article_detail')
+    path('article/<int:pk>', ArticleDetailView.as_view(), name='article_detail'),
     path('article/add', ArticleCreateView.as_view() , name='add'),
     path('article/<int:pk>/edit', ArticleUpdateView.as_view() , name='edit'),
     
