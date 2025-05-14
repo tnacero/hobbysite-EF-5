@@ -20,7 +20,7 @@ class ArticleListView(ListView):
 class ArticleDetailView(DetailView):
     """Creates Detail View for the ArticleCategory model."""
     
-    model = ArticleCategory
+    model = Article
     template_name = 'article_detail.html'
 
 
