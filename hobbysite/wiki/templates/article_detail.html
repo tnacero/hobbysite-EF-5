@@ -8,5 +8,6 @@
         <p><b> Date Created:</b> {{ object.created_on }}</p> 
         <p><b> Last Updated:</b> {{ object.updated_on }}</p> 
         <p><b> Text Entry:</b> {{object.entry}}</p> 
+        <a href="{% url "wiki:list" %}"class = "button"> Back &crarr; </a>
     </ul>
 {% endblock %}
