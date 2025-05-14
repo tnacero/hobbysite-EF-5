@@ -11,14 +11,14 @@ from .forms import *
 
 
 class ArticleListView(ListView):
-    """Creates List View for the Article model."""
+    """Creates List View for the ArticleCategory model."""
     
-    model = Article
+    model = ArticleCategory
     template_name = 'articles.html'
 
 
 class ArticleDetailView(DetailView):
-    """Creates Detail View for the ArticleCategory model."""
+    """Creates Detail View for the Article model."""
     
     model = Article
     template_name = 'article_detail.html'

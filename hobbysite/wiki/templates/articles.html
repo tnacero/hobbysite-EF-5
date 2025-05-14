@@ -3,6 +3,7 @@
 {% block styles %} {% endblock %}
 {% block content %}
 <h1>Online Wiki</h1>
+<a href="{% url "wiki:add" %}"class = "button"> Create Article </a>
 <h2>Categories</h2>
 <ul>
   {% for categories in object_list %}
