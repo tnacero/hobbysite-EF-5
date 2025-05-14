@@ -6,29 +6,40 @@
 {% block content %}
         <ul>
             <h1> Merchandise Store </h1>
-
-            <h1> User's Products </h1>
-                {% for Product in object_list|dictsort:"name" %}
-                    {% if user.Profile == Product.owner %}
+            {% if request.user.is_authenticated %}
+                <h1> {{request.user.profile.name}}'s Products </h1>
+                {% for Product in user_products|dictsort:"name" %}
                     <li><a href="{{Product.get_absolute_url}}">{{Product.name}}</a>
                     <p>{{Product.status}}</p>
                     </li>
-                    {% endif %}
                 {% endfor %}    
-            
+            {% endif %}
             <h1> All Products </h1>
-            {% for Product in object_list|dictsort:"name" %}
-            <li><a href="{{Product.get_absolute_url}}">{{Product.name}}</a>
-            <p>{{Product.status}}</p>
-            </li>
+            {% for Product in products|dictsort:"name" %}
+                {% if request.user.is_authenticated %}
+                    {% if request.user != Product.owner.user %}
+                        <li><a href="{{Product.get_absolute_url}}">{{Product.name}}</a>
+                        <p>{{Product.status}}</p>
+                        </li>
+                    {% endif %}
+                {% else %}
+                        <li><a href="{{Product.get_absolute_url}}">{{Product.name}}</a>
+                        <p>{{Product.status}}</p>
+                        </li>
+                {% endif %}        
             {% endfor %}
             
             <h2> Product Types available</h2>
-            {% for ProductType in object_list|dictsort:"name" %}
-            <li>
-                <p>{{ProductType.product_type.name}}</p>
-                <p>{{ProductType.product_type.description}}</p>
-            </li>
+            {% for product_type in product_types|dictsort:"name" %}
+                <li>
+                <p>{{product_type.name}}</p>
+                <p>{{product_type.description}}</p>
+                </li>
             {% endfor %}
+
+            {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'merchstore:add' %}">Add Product</a>
+                    </li>
+            {% endif %}
         </ul>
 {% endblock %}

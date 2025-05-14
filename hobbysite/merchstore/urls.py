@@ -1,13 +1,13 @@
 """Module providing a function redirecting urls to merch store."""
 
 from django.urls import path
-from .views import ProductList, ProductDetail, ProductCreate, ProductUpdate, Cart, Transactions
+from .views import product_list, ProductDetail, product_create, ProductUpdate, cart, transactions
 urlpatterns = [
-    path('', ProductList.as_view(), name= 'items'),
-    path('add', ProductCreate.as_view(), name= 'add'),
-    path('edit', ProductUpdate.as_view(), name= 'edit'),
-    path('cart', Cart.as_view(), name= 'cart'),
-    path('transactions', Transactions.as_view(), name= 'transactions'),
+    path('', product_list, name= 'items'),
+    path('add', product_create, name= 'add'),
+    path('<int:pk>/edit', ProductUpdate.as_view(), name= 'edit'),
+    path('cart', cart, name= 'cart'),
+    path('transactions', transactions, name= 'transactions'),
     path('<int:pk>', ProductDetail.as_view(), name = "item-detail"),
 ]
 app_name = 'merchstore'

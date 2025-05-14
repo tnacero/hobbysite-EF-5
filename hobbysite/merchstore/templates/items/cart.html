@@ -7,14 +7,18 @@
         <ul>
             <h1> Merchandise Store </h1>
 
-            <h1> {{object.buyer.name}}'s Transaction </h1>
-                {% for Transaction in object_list|dictsort:"owner" %}
-                    {% if object.Profile == object.owner %}
-                    <li>
-                        <p>{{object.owner.name}}</p>
-                        <a href="{{Transaction.get_absolute_url}}">{{Product.name}}</a>
-                    </li>
-                    {% endif %}
-                {% endfor %}    
+            <h1> {{request.user.profile.name}}'s Cart </h1>
+                
+                {% for owner, transactions in owner_sort %}
+                    <h2>{{ owner.user.username}}'s Products</h2>
+                        {% for transaction in transactions %}
+                            {% if user.profile != transaction.product.owner and user.profile == transaction.buyer %}
+                                <li>{{transaction.product.name}}</a>
+                                <p>{{transaction.status}}</p>
+                                <p>{{transaction.amount}}</p>
+                                </li>  
+                            {% endif %}
+                        {% endfor %}   
+                {% endfor %}
         </ul>
 {% endblock %}

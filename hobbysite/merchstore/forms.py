@@ -9,11 +9,10 @@ class ProductForm(forms.ModelForm) :
     class Meta:
         """Meta class for the fields utilized by ProductForm."""
         model = Product
-        fields = "__all__"
+        fields = ['name', 'product_type', 'description', 'price', 'stock', 'status']
         widgets = {
             "product_type":forms.Select()
-            ,"status":forms.Select(),
-            
+            ,"status":forms.Select()
         }
 
 class TransactionForm(forms.ModelForm) :
@@ -23,4 +22,4 @@ class TransactionForm(forms.ModelForm) :
     class Meta:
         """Meta class for the fields utilized by Transaction"""
         model = Transaction
-        fields = ['product', 'amount', 'status']
+        fields = ['amount']

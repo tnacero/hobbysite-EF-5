@@ -25,7 +25,16 @@ class ProductType(models.Model):
 class Product(models.Model):
     """Class representing a product from a product type."""
 
-    
+    available = 'Available'
+    on_sale = 'On sale'
+    out_of_stock = 'Out of Stock'
+
+    statuses = (
+        (available, 'Available'),
+        (on_sale, 'On sale'),
+        (out_of_stock, 'Out of stock')
+    )
+
     name = models.CharField(max_length=255)
     product_type = models.ForeignKey( 
         ProductType, on_delete=models.SET_NULL, null=True,
@@ -36,12 +45,13 @@ class Product(models.Model):
     description = models.TextField()
     price = models.FloatField()
     stock = models.IntegerField(default=1)
-    status = models.CharField(max_length=255, default="Available")
+    status = models.CharField(max_length=255, choices=statuses ,default=available)
+
 
     def __str__(self):
         """Check if this works later."""
-        if Product.stock < 1:
-            self.status = "Out of stock"
+        if self.stock < 1:
+            self.status = "Out of Stock"
             return self.status
         else: 
             return self.status
@@ -62,6 +72,19 @@ class Product(models.Model):
         return reverse('merchstore:item-detail', args=[str(self.pk)])
 
 class Transaction(models.Model):
+    on_cart = 'On Cart'
+    to_pay = 'To Pay'
+    to_ship = 'To Ship'
+    to_recieve = 'To Recieve'
+    delivered = 'Delivered'
+
+    statuses = (
+        (on_cart, 'On Cart'),
+        (to_pay, 'To Pay'),
+        (to_ship, 'To Ship'),
+        (to_recieve, 'To Recieve'),
+        (delivered, 'Delivered')
+    )
     buyer = models.ForeignKey(
         Profile, on_delete=models.SET_NULL, null=True
     )
@@ -69,6 +92,6 @@ class Transaction(models.Model):
         Product, on_delete=models.SET_NULL, null=True
     )
     amount = models.IntegerField()
-    status = models.CharField(max_length=255, default="Available")
+    status = models.CharField(max_length=255, choices=statuses ,default=None)
     created_on = models.DateTimeField(auto_now_add=True, null=True)
     
