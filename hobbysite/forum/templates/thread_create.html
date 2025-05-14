@@ -1,6 +1,13 @@
-{% if user.is_authenticated %}
-        
+{% extends 'base.html' %}
 
-    {% else %}
-        <p><b>Login to see this page.</b></p>    
-    {% endif %}
+{% load static %}
+
+{% if user.is_authenticated %}
+    {% block content %}
+
+
+    {% endblock %}   
+
+{% else %}
+    <p><b>Login to see this page.</b></p>    
+{% endif %}

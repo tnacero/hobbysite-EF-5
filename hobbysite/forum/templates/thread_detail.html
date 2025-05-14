@@ -1,4 +1,4 @@
-<!-- This file formats the details of the thread of posts. -->
+<!-- This file formats the details of the thread of threads. -->
 
 {% extends 'base.html' %}
 
@@ -7,11 +7,11 @@
 {% block title %}Online Forum{% endblock %}
 {% block content %} 
 
-  <h3>{{post.title}}</h3>
-  <h4>{{post.category}}</h4>
-  <p>{{post.description}}<p><br>
-  <p>{{post.entry}}</p><br>
-  <p><i>Created on:</i>{{post.created_on}}</p>
-  <p><i>Last updated:</i>{{post.updated_on}}</p>
+  <h3>{{thread.title}}</h3>
+  <h4>{{thread.category}}</h4>
+  <p>{{thread.description}}<p><br>
+  <p>{{thread.entry}}</p><br>
+  <p><i>Created on:</i>{{thread.created_on}}</p>
+  <p><i>Last updated:</i>{{thread.updated_on}}</p>
 
 {% endblock %}
