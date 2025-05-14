@@ -35,7 +35,7 @@ class Article(models.Model):
     category = models.ForeignKey(ArticleCategory, 
                                      on_delete=models.SET_NULL, 
                                      null=True, 
-                                     related_name = 'article')
+                                     related_name = 'category')
     entry = models.TextField()    
     header_image = models.ImageField(upload_to='static/img/', blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -69,7 +69,7 @@ class Comment(models.Model):
     author = models.ForeignKey(Profile, 
                                      on_delete=models.SET_NULL, 
                                      null=True, 
-                                     related_name = 'author')
+                                     related_name = 'commenter')
     article = models.ForeignKey(Article, 
                                      on_delete=models.CASCADE, 
                                      null=True, 

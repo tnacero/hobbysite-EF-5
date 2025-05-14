@@ -29,8 +29,8 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     
     model = Article 
     template_name = 'article_create.html' 
-    fields = ['title', 'category', 'entry'] 
-    success_url = '/wiki/articles/' 
+    fields = ['title', 'category', 'entry', 'header_image'] 
+    success_url = 'wiki/article/<int:pk>' 
 
 
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
@@ -38,5 +38,12 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     
     model = Article 
     template_name = 'article_update.html' 
-    fields = ['title', 'category', 'entry', 'updated_on'] 
-    success_url = '/wiki/articles/'
+    form_class = WikiUpdateForm
+    
+    def get_success_url(self):
+        return reverse_lazy('wiki:article_detail', kwargs={'pk': self.get_object().pk})
+    
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['form'] = WikiUpdateForm()
+        return ctx
