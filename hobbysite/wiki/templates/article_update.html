@@ -10,6 +10,7 @@
             {% csrf_token %}
             {{ form }}
             <button type="submit">Submit</button>
+			<a href='{{article.get_absolute_url}}'class = "button"> Back &crarr; </a>
     </body>
 </html>
 {% endblock %}
