@@ -37,12 +37,12 @@ class Article(models.Model):
                                      null=True, 
                                      related_name = 'article')
     entry = models.TextField()    
-    header_image = models.ImageField(upload_to='static/img/', null=True)
+    header_image = models.ImageField(upload_to='static/img/', blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.title
+        return '{}'.format(self.title)
         
     def __str__(self):
         return self.category
