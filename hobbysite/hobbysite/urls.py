@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from .views import ThreadListView, ThreadDetailView, ThreadCreateView, ThreadAddView
+
 
 urlpatterns = [
     path('merchstore/', include('merchstore.urls', namespace='merchstore')),
@@ -24,10 +24,6 @@ urlpatterns = [
     path('blog/', include('blog.urls', namespace="blog")),
     path('wiki/', include('wiki.urls', namespace = 'wiki')),
     path('forum/', include('forum.urls', namespace="forum")),
-    path('forum/threads', ThreadListView.as_view(), name='thread-list'),
-    path('forum/thread/<int:id>', ThreadDetailView.as_view(), name='thread-detail'),
-    path('forum/thread/add', ThreadCreateView.as_view(), name='thread-create'),
-    path('forum/thread/<int:pk>/edit', ThreadAddView.as_view(), name='thread-add'),
     path('profile/', include('user_management.urls', namespace='profile')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
