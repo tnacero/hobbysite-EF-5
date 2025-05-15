@@ -19,6 +19,9 @@ class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
         fields = ['status']
+        wdgets = {
+            'status', forms.Select()
+        }
 
 
 

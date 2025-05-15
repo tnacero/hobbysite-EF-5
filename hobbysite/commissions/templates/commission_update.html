@@ -6,32 +6,28 @@
 
 {% block content %}
     <h3> Update Commission {{ commission.title }}</h3>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form }}
         <button type="submit">Submit</button>
     </form>
-
-    <form method="POST">
+    
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% for job in commission.job.all %}
-            {% for jobapplication in job.jobapplicaiton.all %}
-                <input type="hidden" id="ja" name="ja" value='{{ jobapplicaiton }}'>
-                Applicant: {{ jobapplicaiton.applicant }}
-                <label for="status">Applicant Status:</label>
-                <select name="status" id="status">
-                    <option value="A">Pending</option>
-                    <option value="B">Accpeted</option>
-                    <option value="C">Rejected</option>
-                </select>
-            {% endfor%}
+            Job: {{ job.role }} <br>
+            {% for jobapplication in job.jobapplication.all %}
+                <input type="hidden" id="japk" name="japk" value='{{ jobapplication.pk }}'>
+                Applicant: {{ jobapplication.applicant.name }}
+                {{ jobapplication_form.as_p}}
+                <button type="submit">Submit</button> <br>
+            {% endfor %}
         {% endfor %}
-        <button type="submit">Submit</button>
     </form>
 
 
     <h4> Add Another Job </h4>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ job_form }}
 

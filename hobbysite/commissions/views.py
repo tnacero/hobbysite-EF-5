@@ -152,6 +152,7 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
 
         ctx['form'] = CommissionForm(instance=self.get_object())
         ctx['job_form'] = JobForm()
+        ctx['jobapplication_form'] = JobApplicationForm()
         return ctx
     
     def post(self, request, *args, **kwargs):
@@ -184,9 +185,10 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
                 j.save()
 
 
-            if(jobapplication_form.is_valid()):
-                ja = request.POST.get('ja')
-
+        elif(jobapplication_form.is_valid()):
+            japk = request.POST.get('japk')
+            ja = JobApplication.objects.get(pk=japk)
+            if(ja!=None):
                 ja.status - request.POST.get('status')
 
 
@@ -197,4 +199,5 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
             context = self.get_context_data(**kwargs)
             context['form'] = CommissionForm(instance=self.get_object())
             context['job_form'] = JobForm()
+            context['jobapplication_form'] = JobApplicationForm()
             return self.render_to_response(context)
