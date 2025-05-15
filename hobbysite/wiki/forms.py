@@ -2,12 +2,12 @@ from django import forms
 
 from .models import *
 
-class ArticleCreateForm(forms.ModelForm):
+class WikiCreateForm(forms.ModelForm):
     class Meta:
         model = Article
         fields = ['title', 'category', 'entry', 'header_image']
 
-class ArticleCommentForm(forms.ModelForm):
+class WikiCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['entry']   
