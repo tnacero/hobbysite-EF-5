@@ -22,10 +22,12 @@
     <ul>
         {% for commission in object_list %}
             {% if user.is_authenticated %}
-                {% for jobapplication in commission.job.jobapplication.all %}
-                    {% if user.profile == jobapplication.applicant %}
-                        <li><a href="{{ commission.get_absolute_url }}">{{ commission }}</a></li>
-                    {% endif %}
+                {% for job in commission.job.all %}
+                    {% for jobapplication in job.jobapplication.all %}
+                        {% if user.profile == jobapplication.applicant %}
+                            <li><a href="{{ commission.get_absolute_url }}">{{ commission }}</a></li>
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
             {% endif %}
         {% endfor %}
