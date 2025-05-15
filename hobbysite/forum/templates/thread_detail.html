@@ -4,14 +4,54 @@
 
 {% load static %}
 
-{% block title %}Online Forum{% endblock %}
 {% block content %} 
 
-  <h3>{{thread.title}}</h3>
-  <h4>{{thread.category}}</h4>
-  <p>{{thread.description}}<p><br>
-  <p>{{thread.entry}}</p><br>
-  <p><i>Created on:</i>{{thread.created_on}}</p>
-  <p><i>Last updated:</i>{{thread.updated_on}}</p>
+  <h1>By {{ thread.author.user.username }} on {{ thread.created_on }}</h1>
 
+  <p>{{ thread.entry }}</p>
+  {% if thread.image %}
+    <img src="{{ thread.image.url }}" alt="{{ thread.title }}">
+  {% endif %}
+  
+  <h2>Comments</h2>
+  
+  {% for comment in comments %}
+    <div class="comment">
+      <p><strong>{{ comment.author.user.username }}</strong></p> 
+      <i>{{ comment.created_on }}</i>
+      <p>{{ comment.entry }}</p>
+    </div>
+  {% empty %}
+    <p>No comments... yet.</p>
+  {% endfor %}
+  
+  {% if user.is_authenticated %}
+    <h3>Leave a Comment:</h3>
+    <form method="post">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <button type="submit">Submit</button>
+    </form>
+  {% else %}
+    <p>You must be logged in to comment.</p>
+  {% endif %}
+  
+  {% if user.is_authenticated %}
+    {% if user.profile == thread.author %}
+      <a href="{% url 'thread:thread_add' %}">Edit Thread</a>
+    {% endif %}
+  {% endif %}
+  
+  <h3>Other Threads in this Category:</h3>
+  <ul>
+    {% for other_thread in other_threads %}
+      <li><a href="{% url 'thread_detail' other_thread.id %}">{{ other_thread.title }}</a></li>
+      <li><a href="{% url 'thread_detail' other_thread.id %}">{{ other_thread.title }}</a></li>
+    {% empty %}
+      <p>No other threads in this category.</p>
+    {% endfor %}
+  </ul>
+  
+  <p><a href="{% url 'thread_list' %}">Back to Thread List</a></p>
+  
 {% endblock %}
