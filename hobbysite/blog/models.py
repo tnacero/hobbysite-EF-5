@@ -68,6 +68,11 @@ class Comment(models.Model):
                                null=True,
                                related_name="comments")
     
+    article = models.ForeignKey(Article, 
+                               on_delete=models.SET_NULL, 
+                               null=True,
+                               related_name='comments')
+    
     category = models.ForeignKey(ArticleCategory, 
                                     on_delete=models.SET_NULL, 
                                     null=True,
@@ -78,4 +83,4 @@ class Comment(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     
     class Meta:
-        ordering = ['-created_on'] # Orders the date of creation of the articles by descending order
+        ordering = ['-created_on'] # Orders the date of creation of the comments by descending order

@@ -17,21 +17,31 @@
         <a href="{% url "blog:article-edit" object.id %}"class = "button"> Edit &crarr; </a><br>
         <a href="{% url "blog:article-list" %}"class = "button"> Back &crarr; </a>
         
+    {% if request.user.is_authenticated %}
+        <h2>Leave a Comment</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" name="comment_submit">Post</button>
+        </form>
+
+        <h2>Comments</h2>
+        {% for comment in comments %}
+            <p><b> {{ comment.author.name }} </b></p>
+            <p> {{ comment.created_on }} </p>
+            <p> {{ comment.entry }} </p>
+            <hr>
+        {% endfor %}
+    {% endif %}
+
     <h2>Other Articles</h2>
-    {% for articles in categories.category.all %}
-        {% if articles.author == object.author %}
-          <li>
-            <a href='{{ articles.get_absolute_url }}'>{{ articles.title }}</a>
-          </li>
+    {% for articles in common_articles %}
+        {% if articles != object %}
+            <li>
+                <a href='{{ articles.get_absolute_url }}'>{{ articles.title }}</a>
+            </li>
         {% endif %}
     {% endfor %}
 
-    <h2>Comments</h2>
-    {% for comment in object.comments.all %}
-        <p><b> {{ comment.author }} </b></p>
-        <p><b> {{ comment.created_on }} </b></p>
-        <p>{{ comment.entry }}</p>
-        <hr>
-    {% endfor %}
     </ul>
 {% endblock %}
