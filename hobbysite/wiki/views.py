@@ -29,8 +29,8 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     
     model = Article 
     template_name = 'article_create.html' 
-    fields = ['title', 'category', 'entry', 'header_image'] 
-    success_url = 'wiki/article/<int:pk>' 
+    form_class = WikiCreateForm
+    success_url = '/wiki/articles/' 
 
 
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
