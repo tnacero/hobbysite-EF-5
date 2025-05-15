@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'commissions',
     'user_management',
     'accounts',
+    'home',
 ]
 
 MIDDLEWARE = [
