@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 
 
-class PostCategory(models.Model):
+class ThreadCategory(models.Model):
     """This class represents the posts' categories."""
     name = models.CharField(max_length=255)
     description = models.TextField(blank=False)
@@ -25,11 +25,11 @@ class PostCategory(models.Model):
         verbose_name_plural = 'categories'
         
 
-class Post(models.Model):
+class Thread(models.Model):
     """This class represents a post, which contains categories."""
     title = models.CharField(max_length=255)
     category = models.ForeignKey(
-        PostCategory, on_delete=models.SET_NULL, 
+        ThreadCategory, on_delete=models.SET_NULL, 
         null=True, related_name="post"
         )
     entry = models.TextField(blank=False)
