@@ -6,7 +6,7 @@ from .models import Article, ArticleCategory
 from .forms import ArticleCreateForm, ArticleUpdateForm
 
 
-class ArticleListView(ListView): 
+class ArticleListView(LoginRequiredMixin, ListView): 
     """Class for the list view of the articles"""
     model = ArticleCategory 
     template_name = 'blog_list.html' 
@@ -23,8 +23,9 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     form_class = ArticleCreateForm
 
     def form_valid(self, form):
-        article = self.get_object() # Gets the article then passes it to the instance 
-        form.instance.article = article
+        article = Article() # Gets the article then passes it to the instance 
+        form.instance.article = article 
+        form.instance.author = self.request.user.profile # Sets the author to the current user
         self.object = form.save(commit=False)
         self.object.save()
         return super().form_valid(form)

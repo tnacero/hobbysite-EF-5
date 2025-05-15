@@ -3,11 +3,38 @@
 {% block styles %}{% endblock %}
 {% block content %}
     <ul>
+        {% if article.header_image %}
+            <img src='{{ article.header_image.url }}'
+                style="max-width: 150px;"><br>
+        {% endif %}
+
         <h2><b> {{ object.title }} </b></h2>
         <p><b> Category:</b> {{ object.category }} </p> 
         <p><b> Date Created:</b> {{ object.created_on }}</p> 
         <p><b> Last Updated:</b> {{ object.updated_on }}</p> 
         <p><b> Text Entry:</b> {{object.entry}}</p> 
-        <a href="{% url "blog:article-list" %}"class = "button"> Back &crarr; </a>
+        <p><b> Author:</b> {{ object.author.name }} </p>
+        <a href="{% url "blog:article-list" %}"class = "button"> Back &crarr; </a><br>
+        <a href="{% url "blog:article-edit" object.id %}"class = "button"> Edit &crarr; </a>
+
+    <h2>Related Works</h2>
+    {% for categories in object_list %}
+      {% for articles in categories.category.all %}
+        {% if articles.author == object.author %}
+          <li>
+            <a href='{{articles.get_absolute_url}}'>{{articles.title}}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
     </ul>
+
+    <h2>Comments</h2>
+    {% for comment in object.comments.all %}
+        <p><b> {{ comment.name }} </b></p>
+        <p><b> {{ comment.created_on }} </b></p>
+        <p>{{ comment.body }}</p>
+        <hr>
+    {% endfor %}
+    
 {% endblock %}
