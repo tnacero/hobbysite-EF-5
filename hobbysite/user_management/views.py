@@ -14,6 +14,9 @@ class UserCreateView(CreateView):
     form_class = UserCreationForm
     template_name = 'profile_user_create.html'
 
+    def get_success_url(self):
+        return reverse_lazy('home:homepage')
+
 class ProfileForbiddenView(TemplateView):
     template_name = 'profile_forbidden.html'
 
