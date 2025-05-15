@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'merchstore',
     'commissions',
     'user_management',
+    'accounts',
+    'home',
 ]
 
 MIDDLEWARE = [
@@ -129,10 +131,16 @@ USE_TZ = True
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
 
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 STATICFILES_DIRS = [
     BASE_DIR/'static',
 ]
 STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
