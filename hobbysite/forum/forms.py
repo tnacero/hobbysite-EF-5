@@ -8,5 +8,5 @@ class CommentForm(forms.Form):
     class Meta:
         """This class uses metadata from the models 
         import to get the Comment form's fields."""
-        model = Transaction
-        fields = ['product', 'amount', 'status']
+        model = Comment
+        fields = ['author', 'thread', 'entry']

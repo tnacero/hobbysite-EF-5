@@ -4,7 +4,7 @@ from django.urls import reverse
 
 
 class ThreadCategory(models.Model):
-    """This class represents the posts' categories."""
+    """This class represents the thread's categories."""
     name = models.CharField(max_length=255)
     description = models.TextField(blank=False)
 
@@ -12,7 +12,7 @@ class ThreadCategory(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('post-category-detail', args=[str(self.pk)])
+        return reverse('thread-category-detail', args=[str(self.pk)])
 
     class Meta:    
         """This class uses metadata from the models import to arrange
@@ -24,11 +24,15 @@ class ThreadCategory(models.Model):
         
 
 class Thread(models.Model):
-    """This class represents a post, which contains categories."""
+    """This class represents a thread, which contains categories."""
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(
+        user_management.models.Profile, on_delete=models.SET_NULL, 
+        null=True, related_name="author"
+        )
     category = models.ForeignKey(
         ThreadCategory, on_delete=models.SET_NULL, 
-        null=True, related_name="post"
+        null=True, related_name="thread"
         )
     entry = models.TextField(blank=False)
     created_on = models.DateTimeField(auto_now_add=True, null=False)
@@ -38,20 +42,21 @@ class Thread(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('post-detail', args=[str(self.pk)])
+        return reverse('thread-detail', args=[str(self.pk)])
 
     class Meta:
         """This class uses metadata from the models import to arrange
-        the posts in a descending order based on date created."""
+        the threads in a descending order based on date created."""
         
         ordering = ['-created_on']
-        verbose_name = 'post'
-        verbose_name_plural = 'posts'
+        verbose_name = 'thread'
+        verbose_name_plural = 'threads'
+
 
 class Comment(models.Model):
     "This class represents the comments that respond to a thread."
     author = models.ForeignKey(
-        'user_management.models.Profile', on_delete=models.SET_NULL, 
+        user_management.models.Profile, on_delete=models.SET_NULL, 
         null=True, related_name="author"
         )
     thread = models.ForeignKey(

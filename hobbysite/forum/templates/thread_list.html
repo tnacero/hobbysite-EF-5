@@ -4,12 +4,33 @@
 
 {% load static %}
 
-{% block title %}Online Forum{% endblock %}
-{% block content %} 
+<h1>Thread List</h1>
+
+{% if user.is_authenticated %}
+    <h2>Your Threads</h2>
+    {% if user_threads %}
+        <ul>
+        {% for thread in user_threads %}
+            <li><a href="{% Thread.get_absolute_url %}">{{ Thread.title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have not created any threads.</p>
+    {% endif %}
+{% endif %}
+
+<h2>All Threads by Category</h2>
+{% for category, threads in category_threads.items %}
+    <h3>{{ category.name }}</h3>
     <ul>
-        {% for thread in object_list %}
-        <li><a href="{{thread.get_absolute_url}}">{{thread}}</a></li>
+        {% for thread in threads %}
+        <li><a href="{% Thread.get_absolute_url %}">{{ Thread.title }}</a></li>
         {% endfor %}
     </ul>
+{% empty %}
+    <p>No threads available.</p>
+{% endfor %}
+
+    <p><a href="{% url 'forum:thread_create' %}">Create a new thread</a></p>
 
 {% endblock %}
