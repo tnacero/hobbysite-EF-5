@@ -5,12 +5,12 @@
 {% block title %}Merchandise Store{% endblock %}
 {% block content %}
         <ul>
-            <h1> {{object.name}}</h1>
-                <p>{{object.product_type.name}}</p>
-                <p>{{object.description}}</p>
-                <p>{{object.price|floatformat:2}}</p>
-                <p>{{object.stock}}</p>
-                <p>{{object.status}}</p> 
+            <h1> Name: {{object.name}}</h1>
+                <p>Product type: {{object.product_type.name}}</p>
+                <p>Description: {{object.description}}</p>
+                <p>Price: {{object.price|floatformat:2}} Php</p>
+                <p>Stock: {{object.stock}}</p>
+                <p>Status: {{object.status}}</p> 
 
                 {% if request.user == object.owner.user %}
                 
