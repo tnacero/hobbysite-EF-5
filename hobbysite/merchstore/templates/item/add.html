@@ -5,6 +5,7 @@
 {% block title %}Merchandise Store{% endblock %}
 {% block content %}
         <ul>
+            <h2> Product owner is set to {{request.user.profile.name}}</h2>
             <form method="POST">
                 {% csrf_token %}
                 {{ form.as_div }}
