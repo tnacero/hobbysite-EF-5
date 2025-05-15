@@ -32,11 +32,29 @@ class CommissionDetailView(DetailView):
     model = Commission
     template_name = 'commission_detail.html'
 
+    total_accpeted_applications = 0
 
-    # def get_context_data(self, **kwargs):
-    #     ctx = super().get_context_data(**kwargs)
-    #     ctx['sum_manpower'] = sum_of_manpower_required
-    #     return ctx
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        sum_of_manpower_required = 0
+        accepted_manpower = 0
+        commission = self.get_object()
+        jobs_in_commission = commission.job.all()
+
+        for job in jobs_in_commission:
+            sum_of_manpower_required += job.manpower_required
+            job_applications_in_job = job.jobapplication.all()
+            for job_applicaiton in job_applications_in_job:
+                if job_applicaiton.status == "B":
+                    accepted_manpower += 1
+        
+        open_manpower = sum_of_manpower_required - accepted_manpower
+            
+        ctx['sum_manpower'] = sum_of_manpower_required
+        ctx['accepted_manpower'] = accepted_manpower
+        ctx['open_manpower'] = open_manpower
+
+        return ctx
 
     def post(self, request, *args, **kwargs):
             jobpk = request.POST.get('jobpk')
@@ -108,17 +126,30 @@ class CommissionCreateView(LoginRequiredMixin, TemplateView):
             return self.render_to_response(context)
 
 
-class CommissionUpdateView(LoginRequiredMixin, UpdateView):
+class CommissionUpdateView(LoginRequiredMixin, DetailView):
     model = Commission
-    form_class = CommissionForm
     template_name = 'commission_update.html'
 
     def get_context_data(self, **kwargs):
+        self.object = self.get_object()
         ctx = super().get_context_data(**kwargs)
         pk = self.kwargs['pk']
+        commission = self.get_object()
+        jobs_in_commission = commission.job.all()
+
+        amount_of_jobs_in_commission = 0
+        full_jobs_in_commission = 0
+
+        for job in jobs_in_commission:
+            amount_of_jobs_in_commission += 1
+            if job.status == 'B':
+                full_jobs_in_commission += 1
+        
+        if full_jobs_in_commission == amount_of_jobs_in_commission:
+            commission.status = "B"
+
         ctx['form'] = CommissionForm(instance=self.get_object())
         ctx['job_form'] = JobForm()
-        ctx['jobapplication_form'] = JobApplicationForm()
         return ctx
     
     def post(self, request, *args, **kwargs):
@@ -127,6 +158,8 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
         jobapplication_form = JobApplicationForm(request.POST)
 
         pk = self.kwargs['pk']
+
+
 
         if (form.is_valid()):
             c = Commission.objects.get(pk=pk)
@@ -148,10 +181,9 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
 
                 j.save()
 
-            japk = request.POST.get('japk')
 
             if(jobapplication_form.is_valid()):
-                ja = JobApplication.objects.get(pk=japk)
+                ja = request.POST.get('ja')
 
                 ja.status - request.POST.get('status')
 
@@ -163,5 +195,4 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
             context = self.get_context_data(**kwargs)
             context['form'] = CommissionForm(instance=self.get_object())
             context['job_form'] = JobForm()
-            context['jobapplication_form'] = JobApplicationForm()
             return self.render_to_response(context)

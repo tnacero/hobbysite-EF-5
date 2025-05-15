@@ -1,7 +1,6 @@
 """This file sets up the forms for the commissions app."""
 from django import forms
 from .models import Commission, Job, JobApplication
-from user_management.models import Profile
 
 
 class CommissionForm(forms.ModelForm):

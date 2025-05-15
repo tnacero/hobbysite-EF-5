@@ -11,6 +11,8 @@
     <p> Status: {{ commission.get_status_display }}</p>
     <p> Created On: {{ commission.created_on }}</p>
     <p> Latest Update On: {{ commission.updated_on }}</p>
+    <p> Total Manpower Required: {{ sum_manpower }}</p>
+    <p> Open Manpower: {{ open_manpower }}</p>
     <b> JOBS </b>
     <ul>
         {% for job in commission.job.all %}
