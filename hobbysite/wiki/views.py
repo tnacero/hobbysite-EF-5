@@ -22,6 +22,12 @@ class ArticleDetailView(DetailView):
     
     model = Article
     template_name = 'article_detail.html'
+    form_class = WikiCommentForm
+    
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['form'] = WikiCommentForm()
+        return ctx
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
