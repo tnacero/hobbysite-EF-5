@@ -43,18 +43,6 @@ class Article(models.Model):
     def __str__(self):
         return self.title
         
-    def __str__(self):
-        return self.category
-    
-    def __str__(self):
-        return self.created_on
-    
-    def __str__(self):
-        return self.updated_on
-    
-    def __str__(self):
-        return self.header_image
-        
     def get_absolute_url(self):
         return reverse('wiki:article_detail', args=[str(self.pk)])
         
@@ -80,7 +68,7 @@ class Comment(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     
-    def __str__(self):
+    """def __str__(self):
         return self.author
         
     def __str__(self):
@@ -93,7 +81,7 @@ class Comment(models.Model):
         return self.updated_on
         
     def get_absolute_url(self):
-        return reverse('wiki:article-detail', args=[str(self.pk)])
+        return reverse('wiki:article-detail', args=[str(self.pk)])"""
         
         
     class Meta:
