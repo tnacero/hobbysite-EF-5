@@ -9,8 +9,8 @@
             {% if request.user.is_authenticated %}
                 <h1> {{request.user.profile.name}}'s Products </h1>
                 {% for Product in user_products|dictsort:"name" %}
-                    <li><a href="{{Product.get_absolute_url}}">{{Product.name}}</a>
-                    <p>{{Product.status}}</p>
+                    <li>Product: <a href="{{Product.get_absolute_url}}">{{Product.name}}</a>
+                    <p>Status: {{Product.status}}</p>
                     </li>
                 {% endfor %}    
             {% endif %}
@@ -18,13 +18,13 @@
             {% for Product in products|dictsort:"name" %}
                 {% if request.user.is_authenticated %}
                     {% if request.user != Product.owner.user %}
-                        <li><a href="{{Product.get_absolute_url}}">{{Product.name}}</a>
-                        <p>{{Product.status}}</p>
+                        <li>Product: <a href="{{Product.get_absolute_url}}">{{Product.name}}</a>
+                        <p>Status: {{Product.status}}</p>
                         </li>
                     {% endif %}
                 {% else %}
-                        <li><a href="{{Product.get_absolute_url}}">{{Product.name}}</a>
-                        <p>{{Product.status}}</p>
+                        <li>Product: <a href="{{Product.get_absolute_url}}">{{Product.name}}</a>
+                        <p>Status: {{Product.status}}</p>
                         </li>
                 {% endif %}        
             {% endfor %}
