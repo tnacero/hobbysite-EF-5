@@ -8,15 +8,25 @@
     <h3> Update Commission {{ commission.title }}</h3>
     <form method="POST">
         {% csrf_token %}
-        {{ commission_form }}
+        {{ form }}
 
         {% for job in commission.job.all %}
-            {{ job_form }}
+            {{ job }}
             {% for jobapp in job.jobapplicaiton.all%}
                 Applicant: {{ jobapp.applicant }}
                 {{ jobapplication_form }}
             {% endfor%}
         {% endfor %}
+
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <h4> Add Another Job </h4>
+    <form method="POST">
+        {% csrf_token %}
+        {{ job_form }}
+
         <button type="submit">Submit</button>
     </form>
 

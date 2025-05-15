@@ -33,6 +33,10 @@ class CommissionDetailView(DetailView):
     template_name = 'commission_detail.html'
 
 
+    # def get_context_data(self, **kwargs):
+    #     ctx = super().get_context_data(**kwargs)
+    #     ctx['sum_manpower'] = sum_of_manpower_required
+    #     return ctx
 
     def post(self, request, *args, **kwargs):
             jobpk = request.POST.get('jobpk')
@@ -112,19 +116,19 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         pk = self.kwargs['pk']
-        ctx['commission_form'] = CommissionForm()
+        ctx['form'] = CommissionForm(instance=self.get_object())
         ctx['job_form'] = JobForm()
         ctx['jobapplication_form'] = JobApplicationForm()
         return ctx
     
     def post(self, request, *args, **kwargs):
-        commission_form = CommissionForm(request.POST)
+        form = CommissionForm(request.POST)
         job_form = JobForm(request.POST)
-        jobapplication_form = JobApplicationForm()
+        jobapplication_form = JobApplicationForm(request.POST)
 
         pk = self.kwargs['pk']
 
-        if (commission_form.is_valid()):
+        if (form.is_valid()):
             c = Commission.objects.get(pk=pk)
             c.title = request.POST.get('title')
             c.author = request.user.profile
@@ -135,10 +139,8 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
 
             pk = c.pk
 
-            jobpk = request.POST.get('jobpk')
-
             if(job_form.is_valid()):
-                j = Job.objects.get(pk=jobpk)
+                j = Job()
                 j.commission = c
                 j.role = request.POST.get('role')
                 j.manpower_required = request.POST.get('manpower_required')
@@ -159,7 +161,7 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
         else:
             self.object_list = self.get_queryset()
             context = self.get_context_data(**kwargs)
-            context['commission_form'] = CommissionForm()
+            context['form'] = CommissionForm(instance=self.get_object())
             context['job_form'] = JobForm()
-            ctx['jobapplication_form'] = JobApplicationForm()
+            context['jobapplication_form'] = JobApplicationForm()
             return self.render_to_response(context)
