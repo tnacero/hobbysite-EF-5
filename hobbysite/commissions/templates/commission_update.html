@@ -9,18 +9,26 @@
     <form method="POST">
         {% csrf_token %}
         {{ form }}
-
-        {% for job in commission.job.all %}
-            {{ job }}
-            {% for jobapp in job.jobapplicaiton.all%}
-                Applicant: {{ jobapp.applicant }}
-                {{ jobapplication_form }}
-            {% endfor%}
-        {% endfor %}
-
-
         <button type="submit">Submit</button>
     </form>
+
+    <form method="POST">
+        {% csrf_token %}
+        {% for job in commission.job.all %}
+            {% for jobapplication in job.jobapplicaiton.all %}
+                <input type="hidden" id="ja" name="ja" value='{{ jobapplicaiton }}'>
+                Applicant: {{ jobapplicaiton.applicant }}
+                <label for="status">Applicant Status:</label>
+                <select name="status" id="status">
+                    <option value="A">Pending</option>
+                    <option value="B">Accpeted</option>
+                    <option value="C">Rejected</option>
+                </select>
+            {% endfor%}
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+
 
     <h4> Add Another Job </h4>
     <form method="POST">

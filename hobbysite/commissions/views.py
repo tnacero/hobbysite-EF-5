@@ -126,8 +126,9 @@ class CommissionCreateView(LoginRequiredMixin, TemplateView):
             return self.render_to_response(context)
 
 
-class CommissionUpdateView(LoginRequiredMixin, DetailView):
+class CommissionUpdateView(LoginRequiredMixin, UpdateView):
     model = Commission
+    form_class = CommissionForm
     template_name = 'commission_update.html'
 
     def get_context_data(self, **kwargs):
@@ -147,6 +148,7 @@ class CommissionUpdateView(LoginRequiredMixin, DetailView):
         
         if full_jobs_in_commission == amount_of_jobs_in_commission:
             commission.status = "B"
+            commission.save()
 
         ctx['form'] = CommissionForm(instance=self.get_object())
         ctx['job_form'] = JobForm()
