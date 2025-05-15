@@ -4,12 +4,32 @@
 {% block content %}
     <ul>
         <h2><b> {{ object.title }} </b></h2>
+		<p><b> Author:</b> {{ object.author }} </p> 
         <p><b> Category:</b> {{ object.category }} </p> 
         <p><b> Date Created:</b> {{ object.created_on }}</p> 
         <p><b> Last Updated:</b> {{ object.updated_on }}</p> 
         <p><b> Text Entry:</b> {{object.entry}}</p>
         <img src="{{ object.image.url }}" alt="{{ image.description }}">
 		<a href='{{article.get_absolute_url}}/edit'> Edit Article </a>
+		<br>
+		<b> Comments</b>
+		<form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+			{{ form.as_p }}
+            <button type="submit">Submit</button>
+		<br>
+		{% if comments.all|length >= 1 %}
+		    <p><b> {{comment.author}}</b> {{comment.entry}}</p>
+		{% endif %}
+		{% with articles=object.category.articles %}
+		    {% for other_articles in articles.all %}
+				{% if other_article != object %}
+                     <li>
+                          <a href='{{other_article.get_absolute_url}}'>{{other_article.title}}</a>
+                     </li>
+				{% endif %}
+			{% endfor %}
+        {% endwith %}
 		<br>
         <a href="{% url "wiki:list" %}"class = "button"> Back &crarr; </a>
     </ul>
