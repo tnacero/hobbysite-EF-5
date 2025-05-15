@@ -13,14 +13,14 @@
 		<a href='{{article.get_absolute_url}}/edit'> Edit Article </a>
 		<br>
 		<b> Comments</b>
-		<form method="POST" enctype="multipart/form-data">
+		<form method="POST" class="post-form">
             {% csrf_token %}
 			{{ form.as_p }}
-            <button type="submit">Submit</button>
+            <button type="submit" class="save btn btn-default">Submit</button>
 		<br>
-		{% if comments.all|length >= 1 %}
+		{% for comment in object.comments.all %}
 		    <p><b> {{comment.author}}</b> {{comment.entry}}</p>
-		{% endif %}
+		{% endfor %}
 		{% with articles=object.category.articles %}
 		    {% for other_articles in articles.all %}
 				{% if other_article != object %}

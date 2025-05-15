@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import FormMixin
 from .models import *
 from .forms import *
 
@@ -17,17 +18,33 @@ class ArticleListView(ListView):
     template_name = 'articles.html'
 
 
-class ArticleDetailView(DetailView):
+class ArticleDetailView(FormMixin, DetailView):
     """Creates Detail View for the Article model."""
     
     model = Article
     template_name = 'article_detail.html'
     form_class = WikiCommentForm
     
+    def get_success_url(self):
+        return reverse_lazy('wiki:article_detail', kwargs={'pk': self.get_object().pk})
+    
+    """For the Comment Form"""
     def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx['form'] = WikiCommentForm()
+        ctx = super(ArticleDetailView, self).get_context_data(**kwargs)
+        ctx['form'] = WikiCommentForm(initial={'post': self.object})
         return ctx
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.save()
+        return super(ArticleDetailView, self).form_valid(form)
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
