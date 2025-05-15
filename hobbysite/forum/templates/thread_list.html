@@ -19,6 +19,13 @@
         {% else %}
             <p>You have not created any threads.</p>
         {% endif %}
+    {% else %}
+        <p>Login to view your threads.</p>
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
     {% endif %}
 
     <h2>All Threads by Category</h2>
@@ -33,6 +40,13 @@
         <p>No threads available.</p>
     {% endfor %}
 
-        <p><a href="{% url 'forum:thread_create' %}">Create a new thread</a></p>
+    <p><a href="{% url 'forum:thread_create' %}">Create a new thread</a></p>
+    {% if not user.is_authenticated %}
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Logout</button>
+        </form>
+    {% endif %}
 
 {% endblock %}

@@ -14,5 +14,11 @@ class ThreadAdmin(admin.ModelAdmin):
 
     model = Thread
 
+class CommentAdmin(admin.ModelAdmin):
+    """Creates model admin for the Comment model."""
+
+    model = Comment
+
 admin.site.register(ThreadCategory, ThreadCategoryAdmin)
 admin.site.register(Thread, ThreadAdmin)
+admin.site.register(Comment, CommentAdmin)

@@ -34,6 +34,11 @@
     </form>
   {% else %}
     <p>You must be logged in to comment.</p>
+    <form method="POST" action="{% url 'login' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Login</button>
+  </form>
   {% endif %}
   
   {% if user.is_authenticated %}
@@ -53,5 +58,10 @@
   </ul>
   
   <p><a href="{% url 'thread_list' %}">Back to Thread List</a></p>
+  <form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Logout</button>
+  </form>
   
 {% endblock %}

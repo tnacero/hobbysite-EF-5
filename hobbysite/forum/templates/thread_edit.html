@@ -44,10 +44,20 @@
         <button type="submit">Update Thread</button>
     </form>
 
-  <p><a href="{% url 'templates:thread_list' %}">Go Back to Thread List</a></p>
+    <p><a href="{% url 'templates:thread_list' %}">Go Back to Thread List</a></p>
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Logout</button>
+    </form>
 
 {% else %}
     <p><b>Login to see this page.</b></p>    
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
 {% endif %}
 
 {% endblock %}
