@@ -13,7 +13,7 @@ class ProductType(models.Model):
     def __str__(self):
         """Function returning product type name."""
         return self.name
-    
+
     def __str__(self):
         """returning description text field."""
         return self.description
@@ -47,23 +47,14 @@ class Product(models.Model):
     stock = models.IntegerField(default=1)
     status = models.CharField(max_length=255, choices=statuses ,default=available)
 
-
-    def __str__(self):
-        """Check if this works later."""
-        if self.stock < 1:
-            self.status = "Out of Stock"
-            return self.status
-        else: 
-            return self.status
-    
     def __str__(self):
         """Function returning product name."""
         return self.name
-    
+
     def __str__(self):
         """returning description text field."""
         return self.description
-    
+
     def __float__(self):
         return self.price
 
@@ -72,6 +63,7 @@ class Product(models.Model):
         return reverse('merchstore:item-detail', args=[str(self.pk)])
 
 class Transaction(models.Model):
+    """Class representing a transaction for each transaction made."""
     on_cart = 'On Cart'
     to_pay = 'To Pay'
     to_ship = 'To Ship'

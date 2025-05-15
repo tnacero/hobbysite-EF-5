@@ -1,8 +1,10 @@
-"""Modules importing django views and Product from app models for url views."""
+"""
+Modules importing django views and Product from app models for url views, 
+as well as forms, other models for values, and redirects along with dictionaries for grouping.
+"""
+from collections import defaultdict
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
-from collections import defaultdict
 from django.contrib.auth.decorators import login_required
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
@@ -15,7 +17,7 @@ from .forms import ProductForm, TransactionForm
 def product_list(request):
     """function viewing the list of products."""
     products = Product.objects.all()
-    
+
     if request.user.is_authenticated:
         user_products = Product.objects.filter(
             owner__user=request.user
@@ -29,25 +31,25 @@ def product_list(request):
         "user_products": user_products,
         "products": products,
         "product_types": product_types
-    }   
+    }
 
     return render(request, "items/items.html", ctx)    
 
 class ProductDetail(DetailView):
-    """Class viewing a product in detail."""
+    """Class viewing a product in detail and doing transactions."""
 
     model = Product
     template_name = "item/item_detail.html"
-    
+
     def post(self, request, *args, **kwargs):
-        
+
         form = TransactionForm(request.POST)
         if form.is_valid():
             if request.user.is_authenticated:
                 tr = Transaction()
                 tr.buyer = request.user.profile
                 tr.amount = form.cleaned_data.get('amount')
-                tr.status = 'On Cart'
+                tr.status = form.cleaned_data.get('status')
                 product = self.get_object()
                 product.stock -= tr.amount
                 if product.stock < 1:
@@ -57,15 +59,11 @@ class ProductDetail(DetailView):
                 tr.save()
                 product.save()
                 if product.stock < 0:
-                    return self.get(request, *args, **kwargs)
-                
-                else: 
+                    return self.get(request, *args, **kwargs)               
+                else:
                     return redirect('merchstore:cart')
             else:
-                return HttpResponseRedirect("/merchstore/{}".format(self.get_object().pk))
-
-    def get_success_url(self):
-         return reverse_lazy('merchstore:cart')
+                return redirect('/accounts/login')
 
 @login_required(redirect_field_name="registration/login.html")
 def product_create(request):
@@ -90,7 +88,7 @@ def product_create(request):
 
 class ProductUpdate(LoginRequiredMixin, UpdateView):
     """
-    Class to Update a product.
+    Class used to update an existing product.
     """
     model = Product
     fields = [
@@ -107,13 +105,10 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
             form.instance.status = "Out of Stock"
         return super().form_valid(form)
     redirect_field_name = "registration/login.html"    
-    
+
 @login_required(redirect_field_name="registration/login.html")
 def cart(request):
-    """function viewing the list of products."""
-    transactions = Transaction.objects.all()
-    
-    
+    """function viewing the list of products being bought by the user and their status."""
     if request.user.is_authenticated:
         user_cart = Transaction.objects.filter(
             buyer__user=request.user
@@ -133,10 +128,7 @@ def cart(request):
 
 @login_required(redirect_field_name="registration/login.html")
 def transactions(request):
-    """function viewing the list of products."""
-    transaction_list = Transaction.objects.all()
-    
-    
+    """function viewing the list of transactions with the user as the seller."""
     if request.user.is_authenticated:
         user_transac = Transaction.objects.filter(
             product__owner=request.user.profile
@@ -153,4 +145,4 @@ def transactions(request):
         "buyer_sort": buyer_sort.items(),
     }
 
-    return render(request, "items/transactions.html", ctx) 
+    return render(request, "items/transactions.html", ctx)

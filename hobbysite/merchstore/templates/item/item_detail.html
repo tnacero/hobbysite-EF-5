@@ -23,6 +23,17 @@
                             <span>Amount</span>
                             <input type="number" id="amount" name="amount">   
                         </label>
+                        <p>Pick only <strong>ONE</strong> status below.</p>
+                        
+                        <label for="status">Choose status of prouct:</label>
+                        <select name="status" id="status">
+                            <option value="On Cart">On Cart</option>
+                            <option value="To Pay">To Pay</option>
+                            <option value="To Ship">To Ship</option>
+                            <option value="To Recieve">To Recieve</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                        <br><br>
                         <input type="submit" value="Proceed"
                         {% if object.stock == 0 %}disabled{% endif %}
                         />

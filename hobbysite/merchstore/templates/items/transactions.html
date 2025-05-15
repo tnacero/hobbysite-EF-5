@@ -7,14 +7,15 @@
         <ul>
             <h1> Merchandise Store </h1>
 
-            <h1> {{request.user.profile.name}}'s transactions </h1>
+            <h1> {{request.user.profile.name}}'s Transactions </h1>
                 {% for buyer, transactions in buyer_sort %}
                     <h2>{{ buyer.user.username}}'s Purchases</h2>
                         {% for transaction in transactions %}
                             {% if user.profile != transaction.buyer %}
-                                <li>{{transaction.product.name}}</a>
-                                <p>{{transaction.status}}</p>
-                                <p>{{transaction.amount}}</p>
+                                <li>Name of product: {{transaction.product.name}}</a>
+                                <p>Product's current status: {{transaction.status}}</p>
+                                <p>Amount of product being bought: {{transaction.amount}}</p>
+                                <p>Price of product being bought: {{transaction.product.price}} Php</p>
                                 </li>
                             {% endif %}  
                         {% endfor %}   

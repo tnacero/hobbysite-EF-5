@@ -13,9 +13,11 @@
                     <h2>{{ owner.user.username}}'s Products</h2>
                         {% for transaction in transactions %}
                             {% if user.profile != transaction.product.owner and user.profile == transaction.buyer %}
-                                <li>{{transaction.product.name}}</a>
-                                <p>{{transaction.status}}</p>
-                                <p>{{transaction.amount}}</p>
+                                <li>Name of product: {{transaction.product.name}}</a>
+                                <p>Product's current status:{{transaction.status}}</p>
+                                <p>Amount of product to buy: {{transaction.amount}}</p>
+
+                                <P>Price per product: {{transaction.product.price|floatformat:2}} Php
                                 </li>  
                             {% endif %}
                         {% endfor %}   

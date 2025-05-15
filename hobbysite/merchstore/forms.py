@@ -22,4 +22,4 @@ class TransactionForm(forms.ModelForm) :
     class Meta:
         """Meta class for the fields utilized by Transaction"""
         model = Transaction
-        fields = ['amount']
+        fields = ['amount', 'status']
