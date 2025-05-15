@@ -4,7 +4,7 @@ as well as forms, other models for values, and redirects along with dictionaries
 """
 from collections import defaultdict
 from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
@@ -81,7 +81,7 @@ def product_create(request):
             i.status = form.cleaned_data.get('status')
             i.owner = Profile.objects.get(user=request.user)
             i.save()
-            return redirect('merchstore:items')
+            return redirect('merchstore:item-detail', pk=i.pk)
 
     ctx = {"form": form}
     return render(request, 'item/add.html', ctx)
@@ -95,9 +95,8 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
         "name", "product_type", "description", "price", "stock", "status"
     ]
     template_name = "item/edit.html"
-
     def get_success_url(self):
-        return reverse_lazy('merchstore:items')
+        return "/merchstore/{}".format(self.get_object().pk)
 
 
     def form_valid(self, form):
