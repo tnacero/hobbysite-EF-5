@@ -2,12 +2,31 @@
 
 {% load static %}
 
+{% block content %}
+    
 {% if user.is_authenticated %}
-    {% block content %}
+    <h1>Create a New Thread</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div>
+                <label>Created On:</label>
+                <p>{{ form.instance.created_on }}</p>
+            </div>
+            
+            <div>
+                <label>Updated On:</label>
+                <p>{{ form.instance.updated_on }}</p> 
+            </div
 
+            {{ form.as_p }} 
+            <button type="submit">Post Thread</button>
+        </form>
 
-    {% endblock %}   
+    <p><a href="{% url 'templates:thread_list' %}">Go Back to Thread List</a></p>
 
 {% else %}
-    <p><b>Login to see this page.</b></p>    
+    <p>You must be logged in to comment.</p>
 {% endif %}
+
+{% endblock %}
