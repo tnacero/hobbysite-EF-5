@@ -144,4 +144,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
