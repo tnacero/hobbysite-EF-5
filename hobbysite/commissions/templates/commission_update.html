@@ -9,18 +9,22 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form }}
-        <button type="submit">Submit</button>
+        <button name='commission-update' value="commission-update" type="submit">Submit</button>
     </form>
     
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% for job in commission.job.all %}
-            Job: {{ job.role }} <br>
+            <p>>Job: {{ job.role }}</p>
+            <p>>Manpower Required: {{ job.manpower_required }}</p>
             {% for jobapplication in job.jobapplication.all %}
+                {% if jobapplication.status == "A" %}
                 <input type="hidden" id="japk" name="japk" value='{{ jobapplication.pk }}'>
-                Applicant: {{ jobapplication.applicant.name }}
-                {{ jobapplication_form.as_p}}
-                <button type="submit">Submit</button> <br>
+                <p>Applicant: {{ jobapplication.applicant.name }}</p>
+                <button name='applicant-accept' value="applicant-accept" type="submit">Accept</button> 
+                <button name='applicant-reject' value="applicant-reject" type="submit">Reject</button>
+                <br>
+                {% endif %}
             {% endfor %}
         {% endfor %}
     </form>
@@ -31,7 +35,7 @@
         {% csrf_token %}
         {{ job_form }}
 
-        <button type="submit">Submit</button>
+        <button name='job-add' value="job-add" type="submit">Submit</button>
     </form>
 
 {% endblock %}

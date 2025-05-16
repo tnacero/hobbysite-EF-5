@@ -1,6 +1,6 @@
 """This file sets up the views for the commissions app."""
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -11,7 +11,7 @@ from django.views.generic.base import TemplateView
 
 from .models import Commission, Job, JobApplication
 from user_management.models import Profile
-from .forms import CommissionForm, JobForm, JobApplicationForm
+from .forms import CommissionForm, JobForm
 
 
 class CommissionListView(ListView):
@@ -152,29 +152,34 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
 
         ctx['form'] = CommissionForm(instance=self.get_object())
         ctx['job_form'] = JobForm()
-        ctx['jobapplication_form'] = JobApplicationForm()
         return ctx
     
     def post(self, request, *args, **kwargs):
         form = CommissionForm(request.POST)
         job_form = JobForm(request.POST)
-        jobapplication_form = JobApplicationForm(request.POST)
 
         pk = self.kwargs['pk']
 
+        c = Commission.objects.get(pk=pk)
 
 
-        if (form.is_valid()):
-            c = Commission.objects.get(pk=pk)
-            c.title = request.POST.get('title')
-            c.author = request.user.profile
-            c.description = request.POST.get('description')
-            c.status = request.POST.get('status')
+        if('commission-update' in request.POST):
+            if (form.is_valid()):
+                c.title = request.POST.get('title')
+                c.author = request.user.profile
+                c.description = request.POST.get('description')
+                c.status = request.POST.get('status')
 
-            c.save()
+                c.save()
 
-            pk = c.pk
+            else:
+                self.object_list = self.get_queryset()
+                context = self.get_context_data(**kwargs)
+                context['form'] = CommissionForm(instance=self.get_object())
+                context['job_form'] = JobForm()
+                return self.render_to_response(context)
 
+        elif('job-add' in request.POST):
             if(job_form.is_valid()):
                 j = Job()
                 j.commission = c
@@ -184,20 +189,54 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
 
                 j.save()
 
+            else:
+                self.object_list = self.get_queryset()
+                context = self.get_context_data(**kwargs)
+                context['form'] = CommissionForm(instance=self.get_object())
+                context['job_form'] = JobForm()
+                return self.render_to_response(context)
+            
+            return redirect(reverse_lazy('commissions:commissions-detail', args=[pk]))
 
-        elif(jobapplication_form.is_valid()):
+        else:
             japk = request.POST.get('japk')
             ja = JobApplication.objects.get(pk=japk)
+            j = ja.job 
+
             if(ja!=None):
-                ja.status - request.POST.get('status')
+                if('applicant-accept' in request.POST):
+                    ja.status = "B"
+                elif('applicant-reject' in request.POST):
+                    ja.status = "C"
+                else:
+                    ja.status = "A"
 
+                ja.save()
 
-            return redirect(reverse('commissions:commissions-detail', args=[pk]))
+            accepted_applications = 0
+
+            for application in JobApplication.objects.filter(job=j):
+                if(application.status == 'B'):
+                    accepted_applications += 1
+            
+            if(accepted_applications >= j.manpower_required):
+                j.status = "B"
+                j.save()
+
+            amount_of_jobs_in_commission = 0
+            full_jobs_in_commission = 0
+
+            for job in Job.objects.filter(commission=c):
+                amount_of_jobs_in_commission += 1
+                if job.status == "B":
+                    full_jobs_in_commission += 1
+
+            if amount_of_jobs_in_commission == full_jobs_in_commission:
+                c.status = "B"
+                c.save()
+
+            return redirect(reverse_lazy('commissions:commissions-detail', args=[pk]))
         
-        else:
-            self.object_list = self.get_queryset()
-            context = self.get_context_data(**kwargs)
-            context['form'] = CommissionForm(instance=self.get_object())
-            context['job_form'] = JobForm()
-            context['jobapplication_form'] = JobApplicationForm()
-            return self.render_to_response(context)
+        
+    def get_success_url(self):
+        return reverse_lazy('commissions:commissions-detail', kwargs={'pk' : self.get_object().pk})

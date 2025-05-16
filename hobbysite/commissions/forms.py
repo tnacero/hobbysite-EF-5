@@ -13,15 +13,3 @@ class JobForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = ['role', 'manpower_required', 'status']
-
-
-class JobApplicationForm(forms.ModelForm):
-    class Meta:
-        model = JobApplication
-        fields = ['status']
-        wdgets = {
-            'status', forms.Select()
-        }
-
-
-
