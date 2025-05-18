@@ -1,3 +1,4 @@
+"""This file sets up the views for the user_management app."""
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView, CreateView
@@ -10,6 +11,12 @@ from django.contrib.auth.models import User
 # Create your views here.
 
 class UserCreateView(CreateView):
+    """
+    Class for the User Create View.
+
+    Contains the form for create a user.
+    Creates a profile when a user is created.
+    """
     model = User
     form_class = CustomUserCreationForm
     template_name = 'profile_user_create.html'
@@ -29,10 +36,18 @@ class UserCreateView(CreateView):
         return super().form_valid(form)
 
 class ProfileForbiddenView(TemplateView):
+    """
+    Class for the Profile Forbidden View
+    """
     template_name = 'profile_forbidden.html'
 
 
 class ProfileUpdateView(UpdateView, LoginRequiredMixin):
+    """
+    Class for the Profile Update View
+
+    Contains the form to update the name of the profile of a user
+    """
     model = Profile
     form_class = ProfileForm
     slug_field = "username"
