@@ -5,9 +5,45 @@
 {% block title %}Merchandise Store{% endblock %}
 {% block content %}
         <ul>
-            <h1> {{object.name}}</h1>
-                <p>{{object.ProductType.name}}</p>
-                <p>{{object.description}}</p>
-                <p>{{object.price|floatformat:2}}</p> 
+            <h1> Name: {{object.name}}</h1>
+                <p>Product type: {{object.product_type.name}}</p>
+                <p>Description: {{object.description}}</p>
+                <p>Price: {{object.price|floatformat:2}} Php</p>
+                <p>Stock: {{object.stock}}</p>
+                <p>Status: {{object.status}}</p> 
+
+                {% if request.user == object.owner.user %}
+                
+                    <p> Sorry, but you cannot buy this product. </p>
+                {% else %}
+                        <form action="{% url 'merchstore:item-detail' pk=object.pk %}" method="POST">
+                        {% csrf_token %}
+                        {{ form }}
+                        <label for="amount">
+                            <span>Amount</span>
+                            <input type="number" id="amount" name="amount">   
+                        </label>
+                        <p>Pick only <strong>ONE</strong> status below.</p>
+                        
+                        <label for="status">Choose status of prouct:</label>
+                        <select name="status" id="status">
+                            <option value="On Cart">On Cart</option>
+                            <option value="To Pay">To Pay</option>
+                            <option value="To Ship">To Ship</option>
+                            <option value="To Recieve">To Recieve</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                        <br><br>
+                        <input type="submit" value="Proceed"
+                        {% if object.stock == 0 %}disabled{% endif %}
+                        />
+                    </form>
+
+                {% endif %}
+
+                {% if request.user == product.owner.user %}
+                    <li><a href="{% url 'merchstore:edit' pk=object.pk %}">Edit Product</a>
+                    </li>
+                {% endif %}
         </ul>
 {% endblock %}

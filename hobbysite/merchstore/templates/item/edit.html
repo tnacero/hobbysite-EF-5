@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Merchandise Store{% endblock %}
+{% block content %}
+        <ul>
+            <form action = "{% url 'merchstore:edit' pk=object.pk %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_div }}
+                <button type="submit">Submit</button>
+            </form>
+        </ul>
+{% endblock %}
