@@ -1,5 +1,5 @@
 """This file sets up the views for the user_management app."""
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic.base import TemplateView
@@ -34,6 +34,7 @@ class UserCreateView(CreateView):
         profile.email = user.email
         profile.save()
         return super().form_valid(form)
+    
 
 class ProfileForbiddenView(TemplateView):
     """
@@ -65,5 +66,26 @@ class ProfileUpdateView(UpdateView, LoginRequiredMixin):
             return object
         else:
             return reverse_lazy('user_management:profile-forbidden')
+        
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['form'] = ProfileForm(instance=Profile.objects.get(user=self.get_object()))
+        return ctx
+    
+    def post(self, request, *args, **kwargs):
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            
+            p = Profile.objects.get(user=self.get_object())
+            p.name = request.POST.get('name')
+            p.save()
 
+            return redirect(reverse_lazy('home:homepage'))
+        else:
+            self.object_list = self.get_queryset()
+            context = self.get_context_data(**kwargs)
+            context['form'] = form
+            return self.render_to_response(context)
+    
+    
  
