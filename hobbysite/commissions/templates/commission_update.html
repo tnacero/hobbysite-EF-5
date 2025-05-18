@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Update {{ commission.title }} {% endblock %}
+
+{% block content %}
+    <h3> Update Commission {{ commission.title }}</h3>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button name='commission-update' value="commission-update" type="submit">Submit</button>
+    </form>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for job in commission.job.all %}
+            <p>>Job: {{ job.role }}</p>
+            <p>>Manpower Required: {{ job.manpower_required }}</p>
+            {% for jobapplication in job.jobapplication.all %}
+                {% if jobapplication.status == "A" %}
+                <input type="hidden" id="japk" name="japk" value='{{ jobapplication.pk }}'>
+                <p>Applicant: {{ jobapplication.applicant.name }}</p>
+                <button name='applicant-accept' value="applicant-accept" type="submit">Accept</button> 
+                <button name='applicant-reject' value="applicant-reject" type="submit">Reject</button>
+                <br>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </form>
+
+
+    <h4> Add Another Job </h4>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ job_form }}
+
+        <button name='job-add' value="job-add" type="submit">Submit</button>
+    </form>
+
+{% endblock %}
