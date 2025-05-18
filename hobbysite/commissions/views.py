@@ -200,6 +200,8 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
                 context['form'] = CommissionForm(instance=self.get_object())
                 context['job_form'] = JobForm()
                 return self.render_to_response(context)
+            
+            return redirect(reverse_lazy('commissions:commissions-detail', args=[pk]))
 
         elif('job-add' in request.POST):
             if(job_form.is_valid()):
