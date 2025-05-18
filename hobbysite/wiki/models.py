@@ -48,7 +48,7 @@ class Article(models.Model):
         
         
     class Meta:
-        ordering = ['-created_on'] 
+        ordering = ['-created_on'] # The most recent article appears first
         verbose_name = 'article'
         verbose_name_plural = 'articles'
 
@@ -69,6 +69,6 @@ class Comment(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
         
     class Meta:
-        ordering = ['created_on'] 
+        ordering = ['-created_on'] # The most recent comment appears first
         verbose_name = 'comment'
         verbose_name_plural = 'comments'

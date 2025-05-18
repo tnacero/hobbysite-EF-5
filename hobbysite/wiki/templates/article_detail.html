@@ -37,13 +37,15 @@
             {% endfor %}
 
         <h2>Other Articles</h2>
-        {% for articles in common_category %}
-            {% if article != object %}
-                <li>
-                    <a href='{{ article.get_absolute_url }}'>{{ article.title }}</a>
-                </li>
+		{% for article in articles %}
+            {% if article.category == object.category %}
+                {% if article != object %}
+                    <li>
+                        <a href='{{ article.get_absolute_url }}'>{{ article.title }}</a>
+                    </li>
+                {% endif %}
             {% endif %}
-        {% endfor %}
+		{% endfor %}
 		<br>
         <a href="{% url "wiki:list" %}"class = "button"> Back &crarr; </a>
     </ul>
