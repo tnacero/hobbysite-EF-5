@@ -1,6 +1,6 @@
 """This file defines the forms used by the different views."""
 from django import forms
-from .models import Comment
+from .models import Comment, Thread
 
 class CommentForm(forms.Form):
     """Creates the form to be used by the model Comment"""

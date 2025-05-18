@@ -1,6 +1,7 @@
 """This file provides the base models for the forum app."""
 from django.db import models
 from django.urls import reverse
+from user_management.models import Profile
 
 
 class ThreadCategory(models.Model):
@@ -27,8 +28,8 @@ class Thread(models.Model):
     """This class represents a thread, which contains categories."""
     title = models.CharField(max_length=255)
     author = models.ForeignKey(
-        user_management.models.Profile, on_delete=models.SET_NULL, 
-        null=True, related_name="author"
+        Profile, on_delete=models.SET_NULL, 
+        null=True, related_name="thread"
         )
     category = models.ForeignKey(
         ThreadCategory, on_delete=models.SET_NULL, 
@@ -57,8 +58,8 @@ class Thread(models.Model):
 class Comment(models.Model):
     "This class represents the comments that respond to a thread."
     author = models.ForeignKey(
-        user_management.models.Profile, on_delete=models.SET_NULL, 
-        null=True, related_name="author"
+        Profile, on_delete=models.SET_NULL, 
+        null=True, related_name="comment"
         )
     thread = models.ForeignKey(
         Thread, on_delete=models.CASCADE, 
@@ -75,8 +76,8 @@ class Comment(models.Model):
         return reverse('comment-detail', args=[str(self.pk)])
 
     class Meta:
-    """This class uses metadata from the models import to arrange
-    the comments in an ascending order based on date created."""
+        """This class uses metadata from the models import to arrange
+        the comments in an ascending order based on date created."""
 
         ordering = ['created_on']
         verbose_name = 'comment'

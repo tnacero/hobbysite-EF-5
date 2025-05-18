@@ -1,6 +1,6 @@
 """This file sets up the admin panel for the forum app."""
 from django.contrib import admin
-from .models import ThreadCategory, Thread
+from .models import ThreadCategory, Thread, Comment
 
 
 class ThreadCategoryAdmin(admin.ModelAdmin):

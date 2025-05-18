@@ -1,10 +1,10 @@
 """This file defines each view by referencing the models."""
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import render
+from django.urls import reverse_lazy
 from .models import ThreadCategory, Thread, Comment, Profile
-from .forms import CommentForm, ThreadForm 
 
 
 class ThreadListView(TemplateView):
@@ -76,7 +76,7 @@ class ThreadDetailView(LoginRequiredMixin, DetailView):
             c.thread = thread
             c.author = Profile.objects.get(user=request.user)
             c.save()
-            return redirect('thread_detail', pk=thread.id)
+            return redirect('thread-detail', pk=thread.id)
         else:
             ctx = self.get_context_data(**kwargs)
             ctx['comment_form'] = form
@@ -89,7 +89,6 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):
     model = Thread
     template_name = 'templates/thread_create.html'
     fields = ['title', 'category', 'entry', 'image']
-    redirect_url = reverse_lazy('thread_detail', kwargs={'pk': self.object.pk})
 
     def get_queryset(self):
         return Thread.objects.filter(author__user=self.request.user)
@@ -100,7 +99,7 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_redirect_url(self):
-        return reverse_lazy('thread_detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('thread-detail', kwargs={'pk': self.object.pk})
 
 
 class ThreadEditView(LoginRequiredMixin, UpdateView):
@@ -109,7 +108,6 @@ class ThreadEditView(LoginRequiredMixin, UpdateView):
     model = Thread
     template_name = 'templates/thread_edit.html'
     fields = ['title', 'category', 'entry', 'image','updated_on']
-    redirect_url = reverse_lazy('thread_detail', kwargs={'pk': self.object.pk})
 
     def get_queryset(self):
         return Thread.objects.filter(author__user=self.request.user)
@@ -120,4 +118,4 @@ class ThreadEditView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
     def get_redirect_url(self):
-        return reverse_lazy('thread_detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('thread-detail', kwargs={'pk': self.object.pk})

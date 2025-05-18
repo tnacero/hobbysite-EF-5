@@ -129,13 +129,16 @@ USE_TZ = True
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = [
-    BASE_DIR/'static',
-]
 STATIC_URL = 'static/'
+STATIC_ROOT = [os.path.join(BASE_DIR, 'static')]
+
+LOGIN_REDIRECT_URL = '/home'
+LOGOUT_REDIRECT_URL = '/accounts/login'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGIN_REDIRECT_URL = '/profile'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
