@@ -51,7 +51,7 @@ class ThreadDetailView(LoginRequiredMixin, DetailView):
         
         thread = self.object
         category = thread.category
-        other_threads = Thread.objects.filter(category=category).exclude(id=thread.id)
+        other_threads = Thread.objects.filter(category=category).exclude(id=thread.id)[:2]
         comments = Comment.objects.filter(thread=thread).order_by('created_on')
         
         comment_form = CommentForm()

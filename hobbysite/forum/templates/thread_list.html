@@ -1,7 +1,6 @@
 <!-- This file formats the threads as a thread with their corresponding links -->
 
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block content %} 
@@ -13,7 +12,7 @@
         {% if user_threads %}
             <ul>
             {% for thread in user_threads %}
-                <li><a href="{% Thread.get_absolute_url %}">{{ Thread.title }}</a></li>
+                <li><a href="{% thread.get_absolute_url %}">{{ thread.title }}</a></li>
             {% endfor %}
             </ul>
         {% else %}
@@ -23,7 +22,6 @@
         <p>Login to view your threads.</p>
         <form method="POST" action="{% url 'login' %}">
             {% csrf_token %}
-            {{ form.as_p }}
             <button type="submit">Login</button>
         </form>
     {% endif %}
@@ -33,15 +31,16 @@
         <h3>{{ category.name }}</h3>
         <ul>
             {% for thread in threads %}
-            <li><a href="{% Thread.get_absolute_url %}">{{ Thread.title }}</a></li>
+            <li><a href="{% thread.get_absolute_url %}">{{ thread.title }}</a></li>
             {% endfor %}
         </ul>
     {% empty %}
         <p>No threads available.</p>
     {% endfor %}
 
-    <p><a href="{% url 'forum:thread_create' %}">Create a new thread</a></p>
-    {% if not user.is_authenticated %}
+    <p><a href="{% url 'forum:thread_create' %}">Create a new thread?</a></p>
+    
+    {% if user.is_authenticated %}
         <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}
             {{ form.as_p }}

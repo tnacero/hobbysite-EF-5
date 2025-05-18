@@ -1,5 +1,9 @@
+{% extends "base.html" %}
+{% load static %}
+
 <html>
     <body>
+        <h1>Login Page</h1>
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
