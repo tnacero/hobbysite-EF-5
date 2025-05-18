@@ -27,7 +27,8 @@ class ArticleDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx['common_articles'] = Article.objects.filter(author=self.request.user.profile)
+        if self.request.user.is_authenticated:
+            ctx['common_articles'] = Article.objects.filter(author=self.request.user.profile)
         ctx['comments'] = Comment.objects.all()
         ctx['comment_form'] = self.form_class()
         return ctx
