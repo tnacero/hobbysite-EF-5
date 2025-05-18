@@ -25,7 +25,7 @@
                     {{ comment_form.as_p }}
                     <button type="submit" name="comment_submit">Post</button>
                  </form>
-
+        {% endif %}
             <h2>Comments</h2>
             {% for comment in comments %}
                 <p><b> {{ comment.author.name }} </b></p>
@@ -33,7 +33,6 @@
                 <p> {{ comment.entry }} </p>
                 <hr>
             {% endfor %}
-	    {% endif %}
 
         <h2>Other Articles</h2>
         {% for articles in common_articles %}

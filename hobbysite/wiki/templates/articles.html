@@ -4,25 +4,29 @@
 {% block content %}
 <h1>Online Wiki</h1>
 <a href="{% url "wiki:add" %}"class = "button"> Create Article </a>
-<h2 style="line-height:0.5">Your Articles</h2>
-  {% for categories in object_list %}
-      {% for articles in categories.category.all %}
-        {% if request.user.profile == articles.author %}
-          <li>
-            <a href='{{articles.get_absolute_url}}'>{{articles.title}}</a>
-          </li>
-        {% endif %}
+{% if request.user.is_authenticated %}
+    <h2 style="line-height:0.5">Your Articles</h2>
+      {% for categories in object_list %}
+          {% for articles in categories.category.all %}
+            {% if request.user.profile == articles.author %}
+              <li>
+                <a href='{{articles.get_absolute_url}}'>{{articles.title}}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        <br>
       {% endfor %}
-    <br>
-  {% endfor %}
+{% endif %}
 <h2>Categories</h2>
 <ul>
   {% for categories in object_list %}
     <b><u> {{categories.name}}</u></b> | {{categories.description}}
       {% for articles in categories.category.all %}
-        <li>
-          <a href='{{articles.get_absolute_url}}'>{{articles.title}}</a>
-        </li>
+	        {% if request.user.profile != articles.author %}
+                <li>
+                     <a href='{{articles.get_absolute_url}}'>{{articles.title}}</a>
+                </li>
+			{% endif %}	
       {% endfor %}
     <br>
   {% endfor %}
