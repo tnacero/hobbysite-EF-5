@@ -4,18 +4,29 @@ from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile
-from .forms import ProfileForm
-from django.contrib.auth.forms import UserCreationForm
+from .forms import ProfileForm, CustomUserCreationForm
+
 from django.contrib.auth.models import User
 # Create your views here.
 
 class UserCreateView(CreateView):
     model = User
-    form_class = UserCreationForm
+    form_class = CustomUserCreationForm
     template_name = 'profile_user_create.html'
 
     def get_success_url(self):
         return reverse_lazy('home:homepage')
+    
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.save()
+
+        profile = Profile()
+        profile.user = user
+        profile.name = user.username
+        profile.email = user.email
+        profile.save()
+        return super().form_valid(form)
 
 class ProfileForbiddenView(TemplateView):
     template_name = 'profile_forbidden.html'
