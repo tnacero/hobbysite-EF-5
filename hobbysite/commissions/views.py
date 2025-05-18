@@ -67,30 +67,30 @@ class CommissionDetailView(DetailView):
         return ctx
 
     def post(self, request, *args, **kwargs):
-            jobpk = request.POST.get('jobpk')
+        jobpk = request.POST.get('jobpk')
 
-            job = Job.objects.get(pk=jobpk)
+        job = Job.objects.get(pk=jobpk)
 
 
-            accepted_application = 0
-            for application in (JobApplication.objects.filter(job=job)):
-                if application.status == 'B':
-                    accepted_application += 1
+        accepted_application = 0
+        for application in (JobApplication.objects.filter(job=job)):
+            if application.status == 'B':
+                accepted_application += 1
                 
 
-            if (accepted_application == job.manpower_required):
-                job.status = "B"
-                job.save()
+        if (accepted_application == job.manpower_required):
+            job.status = "B"
+            job.save()
 
 
-            if(job.status == 'A'):
-                ja = JobApplication()
-                ja.job = job
-                ja.applicant = request.user.profile
+        if(job.status == 'A'):
+            ja = JobApplication()
+            ja.job = job
+            ja.applicant = request.user.profile
 
-                ja.save()
+            ja.save()
 
-            return self.get(request, *args, **kwargs)
+        return self.get(request, *args, **kwargs)
 
 
 class CommissionCreateView(LoginRequiredMixin, TemplateView):
