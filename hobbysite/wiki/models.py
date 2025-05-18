@@ -67,22 +67,6 @@ class Comment(models.Model):
     entry = models.TextField()    
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    
-    """def __str__(self):
-        return self.author
-        
-    def __str__(self):
-        return self.article
-    
-    def __str__(self):
-        return self.created_on
-    
-    def __str__(self):
-        return self.updated_on
-        
-    def get_absolute_url(self):
-        return reverse('wiki:article-detail', args=[str(self.pk)])"""
-        
         
     class Meta:
         ordering = ['created_on'] 
