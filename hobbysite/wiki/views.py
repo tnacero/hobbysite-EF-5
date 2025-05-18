@@ -1,11 +1,11 @@
 """This file sets up the views for the wiki app."""
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import FormMixin
 from .models import Article, ArticleCategory, Comment
 from .forms import WikiCreateForm, WikiUpdateForm, WikiCommentForm
@@ -54,9 +54,17 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     template_name = 'article_create.html' 
     form_class = WikiCreateForm
     success_url = '/wiki/articles/' 
+    
+    def form_valid(self, form):
+        article = Article() # Gets the article then passes it to the instance 
+        form.instance.article = article
+        form.instance.author = self.request.user.profile # Sets the author to the current user
+        self.object = form.save(commit=False)
+        self.object.save()
+        return super().form_valid(form)
 
 
-class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+class ArticleUpdateView(UserPassesTestMixin, UpdateView):
     """Creates Update View for the Article model"""
     
     model = Article 
@@ -70,3 +78,14 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
         ctx = super().get_context_data(**kwargs)
         ctx['form'] = WikiUpdateForm()
         return ctx
+     
+    def form_valid(self, form):
+        article = self.get_object() # Gets the article then passes it to the instance 
+        form.instance.article = article
+        self.object = form.save(commit=False)
+        self.object.save()
+        return super().form_valid(form)
+    
+    def test_func(self):
+        artic = get_object_or_404(Article, pk = self.kwargs["pk"])
+        return self.request.user == artic.author
