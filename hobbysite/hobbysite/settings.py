@@ -15,6 +15,10 @@ from pathlib import Path
 
 from dotenv import load_dotenv 
 
+from django.conf import settings
+
+from django.conf.urls.static import static
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -127,7 +131,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-
 STATIC_URL = 'static/'
 STATIC_ROOT = [os.path.join(BASE_DIR, 'static')]
 
