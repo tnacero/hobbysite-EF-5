@@ -7,8 +7,10 @@
         <ul>
             <h1> Merchandise Store </h1>
             {% if request.user.is_authenticated %}
-                    <p><a href="{% url 'merchstore:cart' %}">{{request.user.profile.name}}'s Products</a>
-                    </p>
+                    <p><a href="{% url 'merchstore:cart' %}">{{request.user.profile.name}}'s Cart</a></p>
+
+                    <p><a href="{% url 'merchstore:transactions' %}">{{request.user.profile.name}}'s Sold Products</a></p>
+                    
             {% endif %}
             {% if request.user.is_authenticated %}
                 <h1> {{request.user.profile.name}}'s Products </h1>
