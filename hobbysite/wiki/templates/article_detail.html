@@ -14,7 +14,9 @@
         <p><b> Date Created:</b> {{ object.created_on }}</p> 
         <p><b> Last Updated:</b> {{ object.updated_on }}</p> 
         <p><b> Text Entry:</b> {{object.entry}}</p>
-		<a href='{{article.get_absolute_url}}/edit'> Edit Article </a>
+		{% if request.user_passes_test %}
+		    <a href='{{article.get_absolute_url}}/edit'> Edit Article </a>
+		{% endif %}
 		<br>
 		{% if request.user.is_authenticated %}
             <h2>Leave a Comment</h2>
