@@ -2,13 +2,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormMixin
-from .models import *
-from .forms import *
+from .models import Article, ArticleCategory, Comment
+from .forms import WikiCreateForm, WikiUpdateForm, WikiCommentForm
 
 
 class ArticleListView(ListView):
@@ -18,33 +18,33 @@ class ArticleListView(ListView):
     template_name = 'articles.html'
 
 
-class ArticleDetailView(FormMixin, DetailView):
+class ArticleDetailView(DetailView):
     """Creates Detail View for the Article model."""
     
     model = Article
     template_name = 'article_detail.html'
     form_class = WikiCommentForm
     
-    def get_success_url(self):
-        return reverse_lazy('wiki:article_detail', kwargs={'pk': self.get_object().pk})
-    
-    """For the Comment Form"""
     def get_context_data(self, **kwargs):
-        ctx = super(ArticleDetailView, self).get_context_data(**kwargs)
-        ctx['form'] = WikiCommentForm(initial={'post': self.object})
+        ctx = super().get_context_data(**kwargs)
+        ctx['common_articles'] = Article.objects.filter(author=self.request.user.profile)
+        ctx['comments'] = Comment.objects.all()
+        ctx['comment_form'] = self.form_class()
         return ctx
     
+    def form_valid(self, form):
+        form.instance.article = self.get_object()
+        form.instance.author = self.request.user.profile
+        form.save()
+        return redirect(self.request.path)
+
     def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
+        form = WikiCommentForm(request.POST)
         if form.is_valid():
             return self.form_valid(form)
         else:
-            return self.form_invalid(form)
-
-    def form_valid(self, form):
-        form.save()
-        return super(ArticleDetailView, self).form_valid(form)
+            context = self.get_context_data(form=form)
+            return self.render_to_response(context)
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
