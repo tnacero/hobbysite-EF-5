@@ -15,7 +15,12 @@ from .forms import CommissionForm, JobForm
 
 
 class CommissionListView(ListView):
-    """Creates List View for the Commission model."""
+    """
+    Creates List View for the Commission model.
+    
+    Displays all commission objects
+    If the user is logged-in, then authored commissions and commissions that the user has applied to are displayed.
+    """
 
     model = Commission
     template_name = 'commission_list.html'
@@ -27,7 +32,12 @@ class CommissionListView(ListView):
 
 
 class CommissionDetailView(DetailView):
-    """Creates Detail View for the Commission model."""
+    """
+    Creates Detail View for the Commission model.
+
+    Displays all information related to the commission
+    Allows for making a JobApplication to the Jobs in the Commission
+    """
 
     model = Commission
     template_name = 'commission_detail.html'
@@ -84,6 +94,11 @@ class CommissionDetailView(DetailView):
 
 
 class CommissionCreateView(LoginRequiredMixin, TemplateView):
+    """
+    Creates Create View for the Commission model.
+    
+    ALlows for the creation of a commission and a job for the commission made.
+    """
     template_name = 'commission_create.html'
 
     def get_context_data(self, **kwargs):
@@ -127,6 +142,13 @@ class CommissionCreateView(LoginRequiredMixin, TemplateView):
 
 
 class CommissionUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    Creates Update View for the Commission model.
+    
+    Allows for the updating of information of a commission
+    Allows for the approval and rejection of pending job applications
+    Allows for the creation of a new job related to the commission
+    """
     model = Commission
     form_class = CommissionForm
     template_name = 'commission_update.html'

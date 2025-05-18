@@ -83,6 +83,7 @@ class Job(models.Model):
         verbose_name_plural = 'jobs'
 
 class JobApplication(models.Model):
+    """Class for the JobApplication model for the commissions app."""
     job = models.ForeignKey(
         Job, 
         on_delete=models.CASCADE, 

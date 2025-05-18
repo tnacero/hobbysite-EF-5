@@ -7,21 +7,19 @@
 {% block content %}
     <h1>Commissions</h1>
     <a href="{% url 'commissions:commissions-create' %}">Create New Commission</a>
-    <h3> Authored Commissions </h3>
-    <ul>
-        {% for commission in object_list %}
-            {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
+        <h3> Authored Commissions </h3>
+        <ul>
+            {% for commission in object_list %}
                 {% if user.profile == commission.author %}
                     <li><a href="{{ commission.get_absolute_url }}">{{ commission }}</a></li>
                 {% endif %}
-            {% endif %} 
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
 
-    <h3> Applied to Commissions </h3>
-    <ul>
-        {% for commission in object_list %}
-            {% if user.is_authenticated %}
+        <h3> Applied to Commissions </h3>
+        <ul>
+            {% for commission in object_list %}
                 {% for job in commission.job.all %}
                     {% for jobapplication in job.jobapplication.all %}
                         {% if user.profile == jobapplication.applicant %}
@@ -29,9 +27,10 @@
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
-            {% endif %}
-        {% endfor %}
-    </ul>
+
+            {% endfor %}
+        </ul>
+    {% endif %}
 
     <h3> All Commissions </h3>
     <ul>
