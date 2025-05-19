@@ -19,6 +19,8 @@
             <br>
             <a href="{% url 'login' %}">Login</a>
         {% endif %} 
+        <br>
+        <a href="{% url 'home:homepage' %}">Homepage</a>
 
         <h2>
             {% block header %}{% endblock %}
