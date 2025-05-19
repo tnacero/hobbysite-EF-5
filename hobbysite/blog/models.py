@@ -35,11 +35,11 @@ class Article(models.Model):
     author = models.ForeignKey(Profile,
                                on_delete=models.SET_NULL, 
                                null=True,
-                               related_name='author')
+                               related_name='blogauthor')
     category = models.ForeignKey(ArticleCategory, 
                                     on_delete=models.SET_NULL, 
                                     null=True,
-                                    related_name='category')
+                                    related_name='blogcategory')
     entry = models.TextField(blank=False)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
