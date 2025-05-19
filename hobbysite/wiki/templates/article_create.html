@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %} Create New Article {% endblock %}
+{% block content %}
+<html>
+    <head>
+        <title> Write a New Article </title>
+    </head>
+    <body>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+			{{ form.as_p }}
+            <button type="submit">Submit</button>
+			<a href="{% url "wiki:list" %}"class = "button"> Back &crarr; </a>
+    </body>
+</html>
+{% endblock %}
