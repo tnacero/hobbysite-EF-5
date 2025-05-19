@@ -2,9 +2,10 @@
 
 {% load static %}
 
-{% block title %} {{ commission.title }} {% endblock %}
+{% block title %} {{ user.username }} {% endblock %}
 
 {% block content %}
+    <h3> Welcome, {{ user.username }} !</h3>
     <form method="POST">
         {% csrf_token %}
         {{ form }}

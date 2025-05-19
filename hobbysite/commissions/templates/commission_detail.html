@@ -7,17 +7,36 @@
 {% block content %}
     <h2> {{ commission.title }} </h2>
     <p> {{ commission.description }}</p>
-    <p> People Required: {{ commission.people_required }}</p>
+    <p> Author: {{ commission.author.name }}</p>
+    <p> Status: {{ commission.get_status_display }}</p>
     <p> Created On: {{ commission.created_on }}</p>
     <p> Latest Update On: {{ commission.updated_on }}</p>
-    <b> Comments </b>
+    <p> Total Manpower Required: {{ sum_manpower }}</p>
+    <p> Open Manpower: {{ open_manpower }}</p>
+    <b> JOBS </b>
     <ul>
-        {% for comment in commission.comment.all %}
+        {% for job in commission.job.all %}
             <li>
-                {{ comment.entry }} <br>
-                Created On: {{ comment.created_on }} <br>
-                Latest Update On: {{ comment.updated_on }}
+                {{ job.role }} <br>
+                Manpower Required: {{ job.manpower_required }} <br>
+                Status: {{ job.get_status_display }}
+                {% if user.is_authenticated %}
+                    {% if job.get_status_display == 'Open' %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" id="jobpk" name="jobpk" value='{{ job.pk }}'>
+                            <button type="submit">Apply to Job</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
+    {% if user.is_authenticated %}
+        {% if user.profile == commission.author %}
+            <a href="{% url 'commissions:commissions-update' pk=commission.pk %}">Update Commission</a>
+        {% endif %}
+    {% endif %} 
+    <br>
+    <a href="{% url 'commissions:commissions-list' %}">Back to Commission List</a>
 {% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block title %}Online Wiki{% endblock %}
+{% block styles %}{% endblock %}
+{% block content %}
+    <ul>
+	    {% if article.header_image %}
+            <img src='{{ article.header_image.url }}'
+                 style="max-width: 1000px;"><br>
+        {% endif %}
+        <h2><b> {{ object.title }} </b></h2>
+		<p><b> Author:</b> {{ object.author }} </p> 
+        <p><b> Category:</b> {{ object.category }} </p> 
+        <p><b> Date Created:</b> {{ object.created_on }}</p> 
+        <p><b> Last Updated:</b> {{ object.updated_on }}</p> 
+        <p><b> Text Entry:</b> {{object.entry}}</p>
+		{% if request.user.profile == object.author %}
+		    <a href='{{article.get_absolute_url}}/edit'> Edit Article </a>
+		{% endif %}
+		<br>
+		{% if request.user.is_authenticated %}
+            <h2>Leave a Comment</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" name="comment_submit">Post</button>
+                 </form>
+        {% endif %}
+            <h2>Comments</h2>
+            {% for comment in comments %}
+			    {% if comment.article == object %}
+                    <p><b> {{ comment.author.name }} </b></p>
+                    <p> {{ comment.created_on }} </p>
+                    <p> {{ comment.entry }} </p>
+                    <hr>
+				{% endif %}
+            {% endfor %}
+
+        <h2>Other Articles</h2>
+		{% for article in articles %}
+            {% if article.category == object.category %}
+                {% if article != object %}
+                    <li>
+                        <a href='{{ article.get_absolute_url }}'>{{ article.title }}</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+		{% endfor %}
+		<br>
+        <a href="{% url "wiki:list" %}"class = "button"> Back &crarr; </a>
+    </ul>
+{% endblock %}

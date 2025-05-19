@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Create a New Commission {% endblock %}
+
+{% block content %}
+    <h3> Create a New Commission</h3>
+    <p> Author of the Created Commission will be {{ user.profile.name }}</p>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ commission_form.as_p }}
+     <h3> Create a New Job </h3>
+        {{ job_form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}
