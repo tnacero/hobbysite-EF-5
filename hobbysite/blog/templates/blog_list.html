@@ -6,7 +6,7 @@
 <h1>Blog Site</h1>
   <h2 style="line-height:0.5">Your Articles</h2>
   {% for categories in object_list %}
-      {% for articles in categories.category.all %}
+      {% for articles in categories.blogcategory.all %}
         {% if request.user.profile == articles.author %}
           <li>
             <a href='{{articles.get_absolute_url}}'>{{articles.title}}</a>
@@ -19,7 +19,7 @@
 <h2>Categories</h2>
   {% for categories in object_list %}
     <b><u> {{categories.name}}</u></b> | {{categories.description}}
-      {% for articles in categories.category.all %}
+      {% for articles in categories.blogcategory.all %}
           {% if request.user.profile != articles.author %}
             <li>
               <a href='{{articles.get_absolute_url}}'>{{articles.title}}</a>
