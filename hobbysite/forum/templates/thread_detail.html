@@ -27,11 +27,11 @@
   {% endfor %}
   
   {% if user.is_authenticated %}
-    <h4>Leave a Comment:</43>
+    <h4>Leave a Comment:</h4>
     <form method="post">
       {% csrf_token %}
       {{ comment_form.as_p }}
-      3<button type="submit">Submit</button>
+      <button type="submit">Submit</button>
     </form>
   {% else %}
     <p>You must be logged in to comment.</p>
