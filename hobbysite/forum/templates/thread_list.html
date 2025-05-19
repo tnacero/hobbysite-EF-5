@@ -3,9 +3,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content %} 
+<title>Thread List</title>
 
-    <h1>Thread List</h1>
+{% block content %} 
 
     {% if user.is_authenticated %}
         <h2>Your Threads</h2>
@@ -20,15 +20,11 @@
         {% endif %}
     {% else %}
         <p>Login to view your threads.</p>
-        <form method="POST" action="{% url 'login' %}">
-            {% csrf_token %}
-            <button type="submit">Login</button>
-        </form>
     {% endif %}
 
-    <h2>All Threads by Category</h2>
+    <h3>All Threads by Category</h3>
     {% for category, threads in category_threads.items %}
-        <h3>{{ category.name }}</h3>
+        <p><strong>{{ category.name }}</strong></p>
         <ul>
             {% for thread in threads %}
             <li><a href="{% thread.get_absolute_url %}">{{ thread.title }}</a></li>
@@ -38,14 +34,6 @@
         <p>No threads available.</p>
     {% endfor %}
 
-    <p><a href="{% url 'forum:thread_create' %}">Create a new thread?</a></p>
-    
-    {% if user.is_authenticated %}
-        <form method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Logout</button>
-        </form>
-    {% endif %}
+    <p><strong><a href="{% url 'thread-create' %}">Create a new thread?</a></strong></p>
 
 {% endblock %}
