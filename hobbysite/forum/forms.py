@@ -20,4 +20,4 @@ class ThreadForm(forms.ModelForm):
         """This class uses metadata from the models 
         import to get the Thread form's fields."""
         model = Thread
-        fields = ['title', 'category', 'entry', 'image', 'updated_on']
+        fields = ['title', 'category', 'entry', 'image']
