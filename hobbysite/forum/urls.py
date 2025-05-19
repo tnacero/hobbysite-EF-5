@@ -1,10 +1,12 @@
 """This file defines the url path for each view."""
 from django.urls import path 
-from .views import PostListView, PostDetailView
+from .views import ThreadListView, ThreadDetailView, ThreadCreateView, ThreadEditView
 
 urlpatterns = [
-    path('threads', PostListView.as_view() , name='post-list'),
-    path('thread/<int:pk>', PostDetailView.as_view() , name='post-detail'),
+    path('forum/threads', ThreadListView.as_view() , name='thread-list'),
+    path('forum/thread/<int:pk>', ThreadDetailView.as_view() , name='thread-detail'),
+    path('forum/thread/add', ThreadCreateView.as_view(), name='thread-create'),
+    path('forum/thread/<int:pk>/edit', ThreadEditView.as_view(), name='thread-edit'),
 ]
 
 app_name = "forum"

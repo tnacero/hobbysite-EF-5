@@ -1,15 +1,51 @@
-<!-- This file formats the posts as a thread with their corresponding links -->
+<!-- This file formats the threads as a thread with their corresponding links -->
 
 {% extends 'base.html' %}
-
 {% load static %}
 
-{% block title %}Online Forum{% endblock %}
 {% block content %} 
-    <ul>
-        {% for post in object_list %}
-        <li><a href="{{post.get_absolute_url}}">{{post}}</a></li>
-        {% endfor %}
-    </ul>
+
+    <h1>Thread List</h1>
+
+    {% if user.is_authenticated %}
+        <h2>Your Threads</h2>
+        {% if user_threads %}
+            <ul>
+            {% for thread in user_threads %}
+                <li><a href="{% thread.get_absolute_url %}">{{ thread.title }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>You have not created any threads.</p>
+        {% endif %}
+    {% else %}
+        <p>Login to view your threads.</p>
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <button type="submit">Login</button>
+        </form>
+    {% endif %}
+
+    <h2>All Threads by Category</h2>
+    {% for category, threads in category_threads.items %}
+        <h3>{{ category.name }}</h3>
+        <ul>
+            {% for thread in threads %}
+            <li><a href="{% thread.get_absolute_url %}">{{ thread.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% empty %}
+        <p>No threads available.</p>
+    {% endfor %}
+
+    <p><a href="{% url 'forum:thread_create' %}">Create a new thread?</a></p>
+    
+    {% if user.is_authenticated %}
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Logout</button>
+        </form>
+    {% endif %}
 
 {% endblock %}

@@ -19,6 +19,7 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('merchstore/', include('merchstore.urls', namespace='merchstore')),
     path('commissions/', include('commissions.urls', namespace = 'commissions')),

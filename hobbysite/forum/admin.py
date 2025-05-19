@@ -1,18 +1,24 @@
 """This file sets up the admin panel for the forum app."""
 from django.contrib import admin
-from .models import PostCategory, Post
+from .models import ThreadCategory, Thread, Comment
 
 
-class PostCategoryAdmin(admin.ModelAdmin):
-    """Creates model admin for the PostCategory model."""
+class ThreadCategoryAdmin(admin.ModelAdmin):
+    """Creates model admin for the ThreadCategory model."""
 
-    model = PostCategory
+    model = ThreadCategory
 
 
-class PostAdmin(admin.ModelAdmin):
-    """Creates model admin for the Post model."""
+class ThreadAdmin(admin.ModelAdmin):
+    """Creates model admin for the Thread model."""
 
-    model = Post
+    model = Thread
 
-admin.site.register(PostCategory, PostCategoryAdmin)
-admin.site.register(Post, PostAdmin)
+class CommentAdmin(admin.ModelAdmin):
+    """Creates model admin for the Comment model."""
+
+    model = Comment
+
+admin.site.register(ThreadCategory, ThreadCategoryAdmin)
+admin.site.register(Thread, ThreadAdmin)
+admin.site.register(Comment, CommentAdmin)

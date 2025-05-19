@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h2>{% if object %}Edit Thread{% else %}Create Thread{% endif %}</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" value="{{ form.title.value }}">
+        </div>
+
+        <div>
+            <label for="category">Category:</label>
+            <select name="category" id="category">
+                <option value="">Select Category</option>
+                {% for category in form.category.field.queryset %}
+                    <option value="{{ category.id }}" {% if category.id == form.category.value %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="id_entry">Post Entry:</label>
+            <textarea name="entry" id="id_entry">{{ form.entry.value }}</textarea>
+        </div>
+
+        <div>
+            <label for="id_image">Image (optional):</label>
+            <input type="file" name="image" id="image">
+        </div>
+
+        <button type="submit">Update Thread</button>
+    </form>
+
+    <p><a href="{% url 'templates:thread_list' %}">Go Back to Thread List</a></p>
+    
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Logout</button>
+    </form>
+
+{% else %}
+    <p><b>Login to see this page.</b></p>    
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+{% endif %}
+
+{% endblock %}
