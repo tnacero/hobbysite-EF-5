@@ -3,16 +3,18 @@
 {% extends 'base.html' %}
 {% load static %}
 
+<title>Thread Info</title>
+
 {% block content %} 
 
-  <h1>By {{ thread.author.user.username }} on {{ thread.created_on }}</h1>
+  <h2>By {{ thread.author.user.username }} on {{ thread.created_on }}</h2>
 
   <p>{{ thread.entry }}</p>
   {% if thread.image %}
     <img src="{{ thread.image.url }}" alt="{{ thread.title }}">
   {% endif %}
   
-  <h2>Comments</h2>
+  <h3>Comments</h3>
   
   {% for comment in comments %}
     <div class="comment">
@@ -25,40 +27,29 @@
   {% endfor %}
   
   {% if user.is_authenticated %}
-    <h3>Leave a Comment:</h3>
+    <h4>Leave a Comment:</43>
     <form method="post">
       {% csrf_token %}
       {{ comment_form.as_p }}
-      <button type="submit">Submit</button>
+      3<button type="submit">Submit</button>
     </form>
   {% else %}
     <p>You must be logged in to comment.</p>
-    <form method="POST" action="{% url 'login' %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Login</button>
-  </form>
   {% endif %}
   
   {% if user.is_authenticated and user.profile == thread.author %}
-    <a href="{% url 'thread:thread_add' %}">Edit Thread</a>
+    <a href="{% url 'thread-add' %}">Edit Thread</a>
   {% endif %}
   
-  <h3>Other Threads in this Category:</h3>
+  <h5>Other Threads in this Category:</h5>
   <ul>
     {% for other_thread in other_threads %}
-      <li><a href="{% url 'thread_detail' other_thread.id %}">{{ other_thread.title }}</a></li>
+      <li><a href="{% url 'thread-detail' other_thread.id %}">{{ other_thread.title }}</a></li>
     {% empty %}
       <p>No other threads in this category.</p>
     {% endfor %}
   </ul>
   
-  <p><a href="{% url 'thread_list' %}">Back to Thread List</a></p>
-
-  <form method="POST" action="{% url 'logout' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Logout</button>
-  </form>
+  <p><strong><a href="{% url 'thread-list' %}">Back to Thread List</a></strong></p>
   
 {% endblock %}
