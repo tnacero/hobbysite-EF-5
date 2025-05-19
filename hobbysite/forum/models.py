@@ -36,12 +36,12 @@ class Thread(models.Model):
         null=True, related_name="thread"
         )
     entry = models.TextField(blank=False)
-    image = models.ImageField(upload_to='media/images/', null=True, blank=True)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True, null=False)
     updated_on = models.DateTimeField(auto_now=True, null=False)
 
     def __str__(self):
-        return self.name
+        return self.title
 
     def get_absolute_url(self):
         return reverse('thread-detail', args=[str(self.pk)])
@@ -63,14 +63,15 @@ class Comment(models.Model):
         )
     thread = models.ForeignKey(
         Thread, on_delete=models.CASCADE, 
-        null=True, related_name="thread"
+        null=True, related_name="comment"
         )
-    entry = entry = models.TextField(blank=False)
+    entry = models.TextField(blank=False)
     created_on = models.DateTimeField(auto_now_add=True, null=False)
     updated_on = models.DateTimeField(auto_now=True, null=False)
 
     def __str__(self):
-        return self.name
+        if self.author and self.author.user:
+            return f"{self.author.user.username}"
 
     def get_absolute_url(self):
         return reverse('comment-detail', args=[str(self.pk)])
