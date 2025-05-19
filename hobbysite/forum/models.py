@@ -44,7 +44,7 @@ class Thread(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('thread-detail', args=[str(self.pk)])
+        return reverse('forum:thread-detail', args=[str(self.pk)])
 
     class Meta:
         """This class uses metadata from the models import to arrange

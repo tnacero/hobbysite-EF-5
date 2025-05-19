@@ -38,18 +38,18 @@
   {% endif %}
   
   {% if user.is_authenticated and user.profile == thread.author %}
-    <a href="{% url 'thread-add' %}">Edit Thread</a>
+    <a href="{% url 'forum:thread-edit' pk=thread.pk %}">Edit Thread</a>
   {% endif %}
   
   <h5>Other Threads in this Category:</h5>
   <ul>
     {% for other_thread in other_threads %}
-      <li><a href="{% url 'thread-detail' other_thread.id %}">{{ other_thread.title }}</a></li>
+      <li><a href="{% url 'forum:thread-detail' other_thread.id %}">{{ other_thread.title }}</a></li>
     {% empty %}
       <p>No other threads in this category.</p>
     {% endfor %}
   </ul>
   
-  <p><strong><a href="{% url 'thread-list' %}">Back to Thread List</a></strong></p>
+  <p><strong><a href="{% url 'forum:thread-list' %}">Back to Thread List</a></strong></p>
   
 {% endblock %}

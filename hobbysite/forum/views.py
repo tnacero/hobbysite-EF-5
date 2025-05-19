@@ -12,7 +12,7 @@ class ThreadListView(TemplateView):
     """Views the posts' category."""
 
     model = ThreadCategory
-    template_name = 'templates/thread_list.html'
+    template_name = 'thread_list.html'
 
     def get(self, request, *args, **kwargs):
         user = request.user
@@ -38,14 +38,14 @@ class ThreadListView(TemplateView):
             'category_threads': category_threads,
         }
 
-        return render(request, 'templates/thread_list.html', ctx)
+        return render(request, 'thread_list.html', ctx)
 
 
 class ThreadDetailView(LoginRequiredMixin, DetailView):
     """Views the details of the thread of posts."""
 
     model = Thread
-    template_name = 'templates/thread_detail.html'
+    template_name = 'thread_detail.html'
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -82,7 +82,7 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):
     """Views the 'create a thread' page."""
 
     model = Thread
-    template_name = 'templates/thread_create.html'
+    template_name = 'thread_create.html'
     fields = ['title', 'category', 'entry', 'image']
 
     def get_queryset(self):
@@ -101,8 +101,8 @@ class ThreadEditView(LoginRequiredMixin, UpdateView):
     """Views the 'edit thread' page.""" 
 
     model = Thread
-    template_name = 'templates/thread_edit.html'
-    fields = ['title', 'category', 'entry', 'image','updated_on']
+    template_name = 'thread_edit.html'
+    fields = ['title', 'category', 'entry', 'image']
 
     def get_queryset(self):
         return Thread.objects.filter(author__user=self.request.user)
