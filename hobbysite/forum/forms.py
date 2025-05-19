@@ -2,14 +2,14 @@
 from django import forms
 from .models import Comment, Thread
 
-class CommentForm(forms.Form):
+class CommentForm(forms.ModelForm):
     """Creates the form to be used by the model Comment"""
     
     class Meta:
         """This class uses metadata from the models 
         import to get the Comment form's fields."""
         model = Comment
-        fields = ['author', 'thread', 'entry']
+        fields = ['entry']
 
 from .models import Thread
 
